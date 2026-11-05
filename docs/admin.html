@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Imtihan Hub – Content Admin</title>
+<style>
+  :root { --blue: #1D4ED8; --navy: #0B1F5C; --bg: #F3F6FB; --card: #fff; --line: #D8DEE9; --sub: #5B6474; --ok: #047857; --bad: #B91C1C; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: #111827; }
+  header { background: linear-gradient(135deg, var(--navy), var(--blue)); color: #fff; padding: 16px 20px; }
+  header h1 { margin: 0; font-size: 20px; }
+  header p { margin: 2px 0 0; opacity: .85; font-size: 13px; }
+  main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; }
+  h2 { font-size: 16px; margin: 0 0 10px; }
+  label { display: block; font-size: 12px; color: var(--sub); margin: 8px 0 3px; }
+  input, select, textarea { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+  textarea { min-height: 70px; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  button { font: inherit; border: 0; border-radius: 10px; padding: 9px 14px; background: var(--blue); color: #fff; cursor: pointer; }
+  button.soft { background: #E7ECF6; color: #111827; }
+  button.bad { background: #FDE2E2; color: var(--bad); }
+  button:disabled { opacity: .5; cursor: default; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .tabs button { background: #E7ECF6; color: #111827; }
+  .tabs button.on { background: var(--blue); color: #fff; }
+  .muted { color: var(--sub); font-size: 12.5px; }
+  .msg { padding: 8px 12px; border-radius: 9px; margin-bottom: 12px; display: none; }
+  .msg.ok { display: block; background: #DCFCE7; color: var(--ok); }
+  .msg.bad { display: block; background: #FDE2E2; color: var(--bad); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  td, th { border-bottom: 1px solid var(--line); padding: 6px 4px; text-align: left; vertical-align: top; }
+  .ur { direction: rtl; font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif; }
+  .pill { display: inline-block; background: #E7ECF6; border-radius: 99px; padding: 1px 8px; font-size: 11.5px; margin-right: 4px; }
+  .hidden { display: none; }
+  .bar { position: sticky; bottom: 0; background: var(--bg); padding: 10px 0; display: flex; gap: 10px; align-items: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Imtihan Hub – Content Admin</h1>
+  <p>Add MCQs, past papers, notices and test-pattern changes. Saved changes reach every phone the next time the app opens – no app update needed.</p>
+</header>
+<main>
+  <div id="msg" class="msg"></div>
+
+  <div class="card" id="login">
+    <h2>1. Connect to GitHub</h2>
+    <p class="muted">Use a GitHub <b>fine-grained token</b> with access to the <code>imtihan-hub</code> repository only and permission
+      <b>Contents: Read and write</b> (github.com → Settings → Developer settings → Fine-grained tokens). The token is kept only in this browser.</p>
+    <div class="row">
+      <div><label>Repository</label><input id="repo" value="shahidjabbarpk/imtihan-hub"></div>
+      <div><label>Branch</label><input id="branch" value="main"></div>
+      <div><label>Token</label><input id="token" type="password" placeholder="github_pat_…"></div>
+    </div>
+    <p><button id="connect">Connect & load</button> <button class="soft" id="forget">Forget token</button></p>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="tabs" id="tabs">
+      <button data-t="mcq" class="on">MCQs</button>
+      <button data-t="bulk">Bulk import</button>
+      <button data-t="paper">Past papers</button>
+      <button data-t="news">Notices</button>
+      <button data-t="tests">Test patterns</button>
+    </div>
+
+    <!-- MCQ -->
+    <section data-s="mcq">
+      <div class="card">
+        <h2>Add an MCQ</h2>
+        <div class="row">
+          <div><label>Subject</label><select id="m_sub"></select></div>
+          <div><label>Topic id (lowercase, e.g. <i>cell</i>, or a new one like <i>mdcat2026</i>)</label><input id="m_topic" value="updates"></div>
+          <div><label>Topic title (for a new topic)</label><input id="m_ttitle" placeholder="New & Updated MCQs"></div>
+          <div><label>Level</label><select id="m_level"><option value="">All</option><option value="matric">Matric</option><option value="inter">Inter</option><option value="test">Entry / job tests</option></select></div>
+        </div>
+        <label>Question</label><textarea id="m_q"></textarea>
+        <div class="row">
+          <div><label>Option A</label><input id="m_o0"></div>
+          <div><label>Option B</label><input id="m_o1"></div>
+          <div><label>Option C</label><input id="m_o2"></div>
+          <div><label>Option D</label><input id="m_o3"></div>
+        </div>
+        <div class="row">
+          <div><label>Correct option</label><select id="m_a"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+          <div><label>Year (if from a past paper)</label><input id="m_year" type="number" placeholder="2025"></div>
+          <div><label>Source (optional)</label><input id="m_src" placeholder="MDCAT 2025"></div>
+        </div>
+        <label>Explanation (why the answer is right)</label><textarea id="m_e"></textarea>
+        <p><button id="m_add">Add MCQ</button></p>
+      </div>
+      <div class="card">
+        <h2>Online MCQs <span class="muted" id="m_count"></span></h2>
+        <input id="m_filter" placeholder="Search…">
+        <table><tbody id="m_list"></tbody></table>
+      </div>
+    </section>
+
+    <!-- bulk -->
+    <section data-s="bulk" class="hidden">
+      <div class="card">
+        <h2>Bulk import (CSV / Excel paste)</h2>
+        <p class="muted">One MCQ per line, columns separated by TAB (paste from Excel/Google Sheets) or by <code>|</code>:<br>
+          <code>subject | topic | question | A | B | C | D | correct (A-D) | explanation | year</code><br>
+          Subjects: bio, chem, phy, math, eng, comp, pak, isl, gk, sci, iq, urdu. Optional: a second sheet of past-paper questions with the year filled in.</p>
+        <textarea id="b_text" style="min-height:200px" placeholder="bio | cell | Which organelle makes ATP? | Ribosome | Mitochondria | Nucleus | Golgi | B | Mitochondria carry out aerobic respiration. | 2024"></textarea>
+        <p><button id="b_go">Import</button> <span class="muted" id="b_res"></span></p>
+      </div>
+      <div class="card">
+        <h2>Make a past paper from imported questions</h2>
+        <p class="muted">After importing a year's paper above, create an interactive paper from all online MCQs with that source text.</p>
+        <div class="row">
+          <div><label>Source / year text to match</label><input id="pp_match" placeholder="MDCAT 2025"></div>
+          <div><label>Paper title</label><input id="pp_title" placeholder="MDCAT 2025 – solved past paper"></div>
+          <div><label>Exam</label><input id="pp_exam" placeholder="MDCAT"></div>
+          <div><label>Minutes</label><input id="pp_min" type="number" value="60"></div>
+        </div>
+        <p><button id="pp_go">Create paper</button> <span class="muted" id="pp_res"></span></p>
+      </div>
+    </section>
+
+    <!-- papers -->
+    <section data-s="paper" class="hidden">
+      <div class="card">
+        <h2>Add a past paper (PDF link)</h2>
+        <div class="row">
+          <div><label>Title</label><input id="p_title" placeholder="BISE Lahore Matric Biology 2025 (Group I)"></div>
+          <div><label>Exam / class</label><input id="p_exam" placeholder="Matric / Inter / MDCAT / PPSC"></div>
+          <div><label>Board / body</label><input id="p_board" placeholder="BISE Lahore"></div>
+          <div><label>Subject</label><input id="p_subject" placeholder="Biology"></div>
+          <div><label>Year</label><input id="p_year" type="number" placeholder="2025"></div>
+        </div>
+        <label>PDF / page URL (https://…)</label><input id="p_url">
+        <p><button id="p_add">Add paper</button></p>
+      </div>
+      <div class="card"><h2>Papers <span class="muted" id="p_count"></span></h2><table><tbody id="p_list"></tbody></table></div>
+    </section>
+
+    <!-- news -->
+    <section data-s="news" class="hidden">
+      <div class="card">
+        <h2>Add a notice</h2>
+        <p class="muted">The news bot adds headlines by itself every 4 hours. Use this for your own announcements; they stay at the top.</p>
+        <div class="row">
+          <div><label>Title</label><input id="n_title"></div>
+          <div><label>Tag</label><select id="n_tag"><option>Result</option><option>Roll No Slip</option><option>Date Sheet</option><option>Admission</option><option>MDCAT</option><option>ECAT / NET</option><option>CSS / Jobs</option><option>Scholarship</option><option>Syllabus</option><option>App</option></select></div>
+          <div><label>Date</label><input id="n_date" type="date"></div>
+        </div>
+        <label>Details (optional)</label><textarea id="n_body"></textarea>
+        <label>Link (optional)</label><input id="n_url" placeholder="https://">
+        <p><button id="n_add">Add notice</button></p>
+      </div>
+      <div class="card"><h2>Notices</h2><table><tbody id="n_list"></tbody></table></div>
+    </section>
+
+    <!-- tests -->
+    <section data-s="tests" class="hidden">
+      <div class="card">
+        <h2>Update a test's pattern / syllabus / dates</h2>
+        <p class="muted">When PMDC, UET, NUST, FPSC… change a test, write only the fields that changed. Fields: <code>about</code> (text), <code>pattern</code> ([["Total MCQs","200"],…]),
+          <code>facts</code>, <code>syllabus</code>, <code>tips</code> (lists of text), <code>mix</code> ({"bio":68,…}), <code>minutes</code> (number), <code>links</code> ([{"label":"…","url":"https://…"}]).
+          Leave <code>{}</code> to go back to the app's built-in version.</p>
+        <div class="row"><div><label>Test key</label><select id="t_key">
+          <option>mdcat</option><option>ecat</option><option>net</option><option>fast</option><option>giki</option><option>pieas</option><option>etea</option><option>nat</option><option>usat</option><option>lat</option><option>issb</option>
+          <option>css</option><option>pms</option><option>fpsc</option><option>ppsc</option><option>spsc</option><option>kppsc</option><option>bpsc</option><option>nts</option><option>teaching</option><option>police</option>
+        </select></div></div>
+        <label>Changes (JSON)</label><textarea id="t_json" style="min-height:220px;font-family:monospace">{}</textarea>
+        <p><button id="t_set">Apply to this test</button></p>
+      </div>
+    </section>
+
+    <div class="bar">
+      <button id="save">Save & publish</button>
+      <span class="muted" id="dirty">No unsaved changes</span>
+    </div>
+  </div>
+</main>
+
+<script>
+const SUBJECTS = ['bio', 'chem', 'phy', 'math', 'eng', 'comp', 'pak', 'isl', 'gk', 'sci', 'iq', 'urdu'];
+const $ = (id) => document.getElementById(id);
+let content = null, contentSha = null, news = null, newsSha = null, dirty = { content: false, news: false };
+
+const b64 = { dec: (s) => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, '')), (c) => c.charCodeAt(0))) };
+function encode(str) { // UTF-8 safe base64, chunked so large files do not overflow the call stack
+  const bytes = new TextEncoder().encode(str); let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+}
+function msg(text, ok = true) { const m = $('msg'); m.textContent = text; m.className = 'msg ' + (ok ? 'ok' : 'bad'); window.scrollTo(0, 0); }
+function mark(which) { dirty[which] = true; $('dirty').textContent = 'Unsaved changes – press Save & publish'; }
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const isUr = (s) => /[؀-ۿ]/.test(s);
+const hash = async (s) => [...new Uint8Array(await crypto.subtle.digest('SHA-1', new TextEncoder().encode(s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim())))].map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 10);
+
+function api(path, opts = {}) {
+  return fetch(`https://api.github.com/repos/${$('repo').value.trim()}/${path}`, {
+    ...opts, headers: { Authorization: `Bearer ${$('token').value.trim()}`, Accept: 'application/vnd.github+json', ...(opts.headers || {}) },
+  });
+}
+async function getFile(path) {
+  const r = await api(`contents/${path}?ref=${encodeURIComponent($('branch').value.trim())}`);
+  if (r.status === 404) return { data: null, sha: null };
+  if (!r.ok) throw new Error(`${path}: ${r.status} ${(await r.json()).message || ''}`);
+  const j = await r.json();
+  let text = j.content ? b64.dec(j.content) : null;
+  if (text == null && j.download_url) text = await (await fetch(j.download_url)).text(); // files > 1 MB
+  return { data: JSON.parse(text), sha: j.sha };
+}
+async function putFile(path, obj, sha, message) {
+  const body = { message, content: encode(path.endsWith('content.json') ? pretty(obj) : JSON.stringify(obj, null, 1) + '\n'), branch: $('branch').value.trim() };
+  if (sha) body.sha = sha;
+  const r = await api(`contents/${path}`, { method: 'PUT', body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(`${path}: ${r.status} ${(await r.json()).message || ''}`);
+  return (await r.json()).content.sha;
+}
+function pretty(c) { // same layout as scripts/auto/grow.mjs
+  const lines = (a) => (a.length ? `[\n${a.map((x) => JSON.stringify(x)).join(',\n')}\n]` : '[]');
+  const ur = Object.entries(c.ur || {});
+  return `{"updatedAt":${JSON.stringify(new Date().toISOString())},\n"mcqs":${lines(c.mcqs)},\n"papers":${lines(c.papers)},\n"ur":{${ur.map(([k, v]) => `\n${JSON.stringify(k)}:${JSON.stringify(v)}`).join(',')}${ur.length ? '\n' : ''}},\n"tests":${JSON.stringify(c.tests || {})}\n}\n`;
+}
+
+// ---------------------------------------------------------------- login
+$('repo').value = localStorage.ih_repo || $('repo').value;
+$('branch').value = localStorage.ih_branch || $('branch').value;
+$('token').value = localStorage.ih_token || '';
+$('forget').onclick = () => { localStorage.removeItem('ih_token'); $('token').value = ''; msg('Token removed from this browser.'); };
+$('connect').onclick = async () => {
+  try {
+    localStorage.ih_repo = $('repo').value.trim(); localStorage.ih_branch = $('branch').value.trim(); localStorage.ih_token = $('token').value.trim();
+    const c = await getFile('data/content.json');
+    content = c.data || { mcqs: [], papers: [], ur: {}, tests: {} }; contentSha = c.sha;
+    content.mcqs ||= []; content.papers ||= []; content.ur ||= {}; content.tests ||= {};
+    const n = await getFile('data/news.json');
+    news = n.data || { items: [] }; newsSha = n.sha;
+    $('app').classList.remove('hidden');
+    renderAll();
+    msg(`Loaded: ${content.mcqs.length} online MCQs, ${content.papers.length} papers, ${news.items.length} notices.`);
+  } catch (e) { msg(String(e), false); }
+};
+
+// ---------------------------------------------------------------- tabs
+document.querySelectorAll('#tabs button').forEach((b) => b.onclick = () => {
+  document.querySelectorAll('#tabs button').forEach((x) => x.classList.toggle('on', x === b));
+  document.querySelectorAll('section[data-s]').forEach((s) => s.classList.toggle('hidden', s.dataset.s !== b.dataset.t));
+});
+$('m_sub').innerHTML = SUBJECTS.map((s) => `<option>${s}</option>`).join('');
+$('n_date').value = new Date().toISOString().slice(0, 10);
+
+// ---------------------------------------------------------------- render
+function renderAll() { renderMcqs(); renderPapers(); renderNews(); loadTest(); }
+function renderMcqs() {
+  const f = $('m_filter').value.toLowerCase();
+  const list = content.mcqs.map((m, i) => [m, i]).filter(([m]) => !f || JSON.stringify(m).toLowerCase().includes(f)).reverse().slice(0, 300);
+  $('m_count').textContent = `(${content.mcqs.length})`;
+  $('m_list').innerHTML = list.map(([m, i]) => `<tr><td><span class="pill">${esc(m.sub)}.${esc(m.topic || 'updates')}</span>${m.src ? `<span class="pill">${esc(m.src)}</span>` : ''}${m.year ? `<span class="pill">${m.year}</span>` : ''}
+    <div class="${isUr(m.q) ? 'ur' : ''}"><b>${esc(m.q)}</b></div><div class="muted">${m.o.map((o, k) => (k === m.a ? `<b>✓ ${esc(o)}</b>` : esc(o))).join(' · ')}</div></td>
+    <td style="width:70px"><button class="bad" data-del-m="${i}">Delete</button></td></tr>`).join('');
+}
+$('m_filter').oninput = renderMcqs;
+document.addEventListener('click', (e) => {
+  const t = e.target;
+  if (t.dataset.delM != null && confirm('Delete this MCQ?')) { content.mcqs.splice(+t.dataset.delM, 1); mark('content'); renderMcqs(); }
+  if (t.dataset.delP != null && confirm('Delete this paper?')) { content.papers.splice(+t.dataset.delP, 1); mark('content'); renderPapers(); }
+  if (t.dataset.delN != null && confirm('Delete this notice?')) { news.items.splice(+t.dataset.delN, 1); mark('news'); renderNews(); }
+});
+function renderPapers() {
+  $('p_count').textContent = `(${content.papers.length})`;
+  $('p_list').innerHTML = content.papers.map((p, i) => [p, i]).reverse().slice(0, 300).map(([p, i]) => `<tr><td><b>${esc(p.title)}</b><div class="muted">${[p.exam, p.board, p.subject, p.year].filter(Boolean).map(esc).join(' • ')}
+    ${p.mcqs ? ` • ${p.mcqs.length} MCQs` : ''}${p.url ? ` • <a href="${esc(p.url)}" target="_blank" rel="noopener">link</a>` : ''}${p.src === 'bot' ? ' • auto' : ''}</div></td>
+    <td style="width:70px"><button class="bad" data-del-p="${i}">Delete</button></td></tr>`).join('');
+}
+function renderNews() {
+  $('n_list').innerHTML = news.items.map((n, i) => `<tr><td>${n.manual ? '<span class="pill">yours</span>' : '<span class="pill">auto</span>'}<span class="pill">${esc(n.tag)}</span> <b>${esc(n.title)}</b><div class="muted">${esc(n.date)}</div></td>
+    <td style="width:70px"><button class="bad" data-del-n="${i}">Delete</button></td></tr>`).join('');
+}
+
+// ---------------------------------------------------------------- add MCQ
+async function makeMcq(sub, topic, q, o, a, e, year, src, title, level) {
+  if (!SUBJECTS.includes(sub)) throw new Error(`Unknown subject "${sub}"`);
+  if (!q || q.length < 4) throw new Error('Question is empty');
+  if (o.length !== 4 || o.some((x) => !x)) throw new Error('All four options are needed');
+  if (new Set(o.map((x) => x.toLowerCase())).size !== 4) throw new Error('Options must be different');
+  if (![0, 1, 2, 3].includes(a)) throw new Error('Correct option must be A, B, C or D');
+  topic = (topic || 'updates').toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 30) || 'updates';
+  const id = await hash(q);
+  if (content.mcqs.some((m) => m.id === id)) throw new Error('This question is already online');
+  const m = { id, sub, topic, q, o, a };
+  if (e) m.e = e; if (year) m.year = +year; if (src) m.src = src; if (title) m.topicTitle = title; if (level) m.level = [level];
+  return m;
+}
+$('m_add').onclick = async () => {
+  try {
+    const m = await makeMcq($('m_sub').value, $('m_topic').value.trim(), $('m_q').value.trim(), [0, 1, 2, 3].map((i) => $('m_o' + i).value.trim()),
+      +$('m_a').value, $('m_e').value.trim(), $('m_year').value, $('m_src').value.trim(), $('m_ttitle').value.trim(), $('m_level').value);
+    content.mcqs.push(m); mark('content'); renderMcqs();
+    ['m_q', 'm_o0', 'm_o1', 'm_o2', 'm_o3', 'm_e'].forEach((k) => $(k).value = '');
+    msg('MCQ added – press Save & publish when done.');
+  } catch (e) { msg(String(e.message || e), false); }
+};
+$('b_go').onclick = async () => {
+  let ok = 0; const bad = [];
+  for (const [n, line] of $('b_text').value.split('\n').entries()) {
+    if (!line.trim()) continue;
+    const c = line.split(line.includes('\t') ? '\t' : '|').map((x) => x.trim());
+    try {
+      const a = 'ABCD'.indexOf((c[7] || '').toUpperCase().slice(0, 1));
+      content.mcqs.push(await makeMcq(c[0].toLowerCase(), c[1], c[2], c.slice(3, 7), a, c[8], c[9], c[9] ? `${c[9]}` : '', '', ''));
+      ok++;
+    } catch (e) { bad.push(`line ${n + 1}: ${e.message}`); }
+  }
+  if (ok) mark('content');
+  renderMcqs();
+  $('b_res').textContent = `${ok} imported${bad.length ? `, ${bad.length} skipped (${bad.slice(0, 5).join('; ')})` : ''}`;
+};
+$('pp_go').onclick = () => {
+  const t = $('pp_match').value.trim().toLowerCase();
+  if (!t) return;
+  const ms = content.mcqs.filter((m) => `${m.src || ''} ${m.year || ''}`.toLowerCase().includes(t));
+  if (!ms.length) { $('pp_res').textContent = 'No online MCQs match'; return; }
+  const ids = ms.map((m) => `${m.sub}.${m.topic || 'updates'}.r${m.id}`);
+  content.papers.push({ id: 'p' + Date.now().toString(36), title: $('pp_title').value.trim() || $('pp_match').value.trim(), exam: $('pp_exam').value.trim() || undefined,
+    year: ms[0].year, mcqs: ids, minutes: +$('pp_min').value || 60 });
+  mark('content'); renderPapers();
+  $('pp_res').textContent = `Paper created with ${ids.length} MCQs`;
+};
+
+// ---------------------------------------------------------------- papers & news
+$('p_add').onclick = () => {
+  const url = $('p_url').value.trim(), title = $('p_title').value.trim();
+  if (!title || !/^https:\/\//.test(url)) { msg('Title and an https:// link are needed', false); return; }
+  content.papers.push({ id: 'p' + Date.now().toString(36), title, exam: $('p_exam').value.trim() || undefined, board: $('p_board').value.trim() || undefined,
+    subject: $('p_subject').value.trim() || undefined, year: +$('p_year').value || undefined, url });
+  mark('content'); renderPapers(); ['p_title', 'p_url'].forEach((k) => $(k).value = '');
+  msg('Paper added – press Save & publish when done.');
+};
+$('n_add').onclick = () => {
+  const title = $('n_title').value.trim(), url = $('n_url').value.trim();
+  if (!title) { msg('Title is needed', false); return; }
+  if (url && !/^https:\/\//.test(url)) { msg('Link must start with https://', false); return; }
+  news.items.unshift({ id: 'm' + Date.now().toString(36), title, body: $('n_body').value.trim() || undefined, url: url || undefined, date: $('n_date').value, tag: $('n_tag').value, manual: true });
+  mark('news'); renderNews(); ['n_title', 'n_body', 'n_url'].forEach((k) => $(k).value = '');
+};
+
+// ---------------------------------------------------------------- tests
+function loadTest() { $('t_json').value = JSON.stringify(content.tests[$('t_key').value] || {}, null, 2); }
+$('t_key').onchange = loadTest;
+$('t_set').onclick = () => {
+  try {
+    const v = JSON.parse($('t_json').value || '{}');
+    if (typeof v !== 'object' || Array.isArray(v)) throw new Error('Must be a JSON object');
+    if (Object.keys(v).length) content.tests[$('t_key').value] = v; else delete content.tests[$('t_key').value];
+    mark('content'); msg('Test updated – press Save & publish.');
+  } catch (e) { msg('Invalid JSON: ' + e.message, false); }
+};
+
+// ---------------------------------------------------------------- save
+$('save').onclick = async () => {
+  try {
+    $('save').disabled = true;
+    if (dirty.content) { contentSha = await putFile('data/content.json', content, contentSha, 'content: admin update'); dirty.content = false; }
+    if (dirty.news) { news.updatedAt = new Date().toISOString(); newsSha = await putFile('data/news.json', news, newsSha, 'news: admin update'); dirty.news = false; }
+    $('dirty').textContent = 'All changes published';
+    msg('Published! Phones get it the next time the app opens (GitHub may take a few minutes to refresh).');
+  } catch (e) {
+    msg(String(e) + ' – if someone (or the bot) changed the file meanwhile, press Connect & load again and redo the change.', false);
+  } finally { $('save').disabled = false; }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+name: Grow content (MCQs, Urdu, model papers)
+
+on:
+  schedule:
+    - cron: "41 1 * * 1"     # every Monday 06:41 Pakistan time (new grand-test week)
+  workflow_dispatch:
+    inputs:
+      topics:
+        description: "Topics to write MCQs for"
+        default: "8"
+      urdu:
+        description: "MCQs to translate to Urdu"
+        default: "60"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data
+  cancel-in-progress: false
+
+jobs:
+  grow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Write content
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          TOPICS_PER_RUN: ${{ github.event.inputs.topics || '8' }}
+          URDU_PER_RUN: ${{ github.event.inputs.urdu || '60' }}
+          MAX_MINUTES: "45"
+        run: node scripts/auto/grow.mjs
+      - name: Commit
+        run: |
+          git config user.name "imtihan-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/content.json data/meta.json
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "content: $(cat data/meta.json)"
+          git pull --rebase -X theirs origin main
+          git push

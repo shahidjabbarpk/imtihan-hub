@@ -22,6 +22,10 @@ export default function Tests() {
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       <TabHeader title="Tests" ur="ٹیسٹ" sub="Pattern, syllabus, tips and timed mock tests" />
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: space }}>
+        <Row icon="trophy-outline" colors={['#B45309', '#F59E0B']} title="Weekly Grand Test" ur="ہفتہ وار گرینڈ ٹیسٹ"
+          sub="Same paper for everyone this week • leaderboard" onPress={() => router.push('/grand')} />
+        <Row icon="file-document-multiple-outline" colors={['#9D174D', '#F472B6']} title="Past Papers" ur="پرانے پرچے"
+          sub="Archive, board objective papers, entry test papers" onPress={() => router.push('/papers')} />
         <Chips>
           <Chip label="Admission / Entry Tests" active={kind === 'entry'} onPress={() => setKind('entry')} />
           <Chip label="Job & Competitive" active={kind === 'job'} onPress={() => setKind('job')} />

@@ -7,6 +7,9 @@ export function withAd(then: () => void) {
 export function adOnOpen(then: () => void) {
   then();
 }
+export function withRewarded(_what: string, then: () => void) {
+  then();
+}
 export function BottomBanner() {
   return null;
 }

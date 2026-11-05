@@ -1,9 +1,9 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { Text, View } from 'react-native';
-import { Btn, Card, Note, Row, Screen, SectionTitle } from '@/components/ui';
+import { Btn, Card, Chip, Chips, Note, Row, Screen, SectionTitle } from '@/components/ui';
 import { buildFromMix, subjectByKey } from '@/data/bank';
 import { testByKey, TESTS } from '@/data/tests';
-import { withAd } from '@/lib/ads';
+import { withAd, withRewarded } from '@/lib/ads';
 import { openOfficial } from '@/lib/links';
 import { exportPaper } from '@/lib/paper';
 import { useApp } from '@/lib/store';
@@ -30,6 +30,7 @@ export default function TestScreen() {
   const best = useApp((s) => s.best[`mock-${t.key}`]);
   const nQ = Object.values(t.mix).reduce((a, b) => a + b, 0);
   const isGoal = useApp((s) => s.goal === t.key);
+  const negative = useApp((s) => s.negative);
 
   return (
     <Screen title={t.name} subtitle={t.full} colors={t.colors}>
@@ -47,15 +48,17 @@ export default function TestScreen() {
             </Text>
           ))}
         </View>
+        <Text style={{ color: c.sub, fontFamily: font.medium, fontSize: 12, marginTop: 10, marginBottom: 6 }}>Negative marking (marks cut per wrong answer)</Text>
+        <Chips>{[0, 0.25, 0.33, 0.5, 1].map((v) => <Chip key={v} label={v ? `−${v}` : 'Off'} active={negative === v} onPress={() => useApp.getState().set({ negative: v })} />)}</Chips>
         <Btn label="Start mock test" icon="timer-outline" color={t.colors[0]} style={{ marginTop: 12 }}
           onPress={() => withAd(() => router.push({ pathname: '/quiz', params: { mode: 'mock', test: t.key } }))} />
         {t.paper && (
           <Btn label={`Full-length paper (${Object.values(t.paper.mix).reduce((a, b) => a + b, 0)} MCQs, ${t.paper.minutes} min)`} icon="file-document-outline" kind="soft" style={{ marginTop: 10 }}
-            onPress={() => withAd(() => router.push({ pathname: '/quiz', params: { mode: 'mock', test: t.key, full: '1' } }))} />
+            onPress={() => withRewarded('full-length paper', () => router.push({ pathname: '/quiz', params: { mode: 'mock', test: t.key, full: '1' } }))} />
         )}
         <View style={{ flexDirection: 'row', gap: 10, marginTop: 10 }}>
           <Btn label="PDF paper" icon="file-pdf-box" kind="soft" style={{ flex: 1 }}
-            onPress={() => exportPaper(`${t.name} Practice Paper`, buildFromMix(t.mix), t.minutes).catch(() => {})} />
+            onPress={() => withRewarded('PDF paper', () => { exportPaper(`${t.name} Practice Paper`, buildFromMix(t.mix), t.minutes).catch(() => {}); })} />
           <Btn label={isGoal ? 'My goal ✓' : 'Set as goal'} icon="flag-outline" kind="soft" style={{ flex: 1 }}
             onPress={() => useApp.getState().set({ goal: isGoal ? null : t.key })} />
         </View>

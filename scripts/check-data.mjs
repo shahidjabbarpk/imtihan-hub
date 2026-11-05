@@ -67,3 +67,20 @@ if (problems.length) {
   process.exitCode = 1;
 } else console.log('OK - no problems');
 void pathToFileURL;
+
+// online content file (written by the admin panel and the weekly bot)
+const cpath = new URL('../data/content.json', import.meta.url);
+if (existsSync(cpath)) {
+  const { readFileSync } = await import('node:fs');
+  const c = JSON.parse(readFileSync(cpath, 'utf8'));
+  const ids = new Set(ALL.map((m) => m.id));
+  const subs = new Set(SUBJECTS.map((s) => s.key));
+  for (const m of c.mcqs ?? []) {
+    if (!subs.has(m.sub) || !Array.isArray(m.o) || m.o.length !== 4 || ![0, 1, 2, 3].includes(m.a)) problems.push(`content.json: bad mcq ${m.id}`);
+    ids.add(`${m.sub}.${/^[a-z0-9-]{1,30}$/.test(m.topic ?? '') ? m.topic : 'updates'}.r${m.id}`);
+  }
+  for (const p of c.papers ?? []) for (const id of p.mcqs ?? []) if (!ids.has(id)) problems.push(`content.json: paper ${p.id} has unknown mcq ${id}`);
+  for (const k of Object.keys(c.ur ?? {})) if (!ids.has(k)) problems.push(`content.json: urdu for unknown mcq ${k}`);
+  console.log(`content.json: ${c.mcqs?.length ?? 0} MCQs, ${c.papers?.length ?? 0} papers, ${Object.keys(c.ur ?? {}).length} Urdu`);
+}
+if (problems.length) { console.log(problems.join('\n')); process.exit(1); }

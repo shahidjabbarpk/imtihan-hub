@@ -2,7 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Switch, Text, View } from 'react-native';
 import { Bar, Btn, Card, Chip, Chips, Row, Screen, SectionTitle } from '@/components/ui';
-import { mcqsOf, subjectByKey } from '@/data/bank';
+import { mcqsOf, subjectByKey, topicCount } from '@/data/bank';
 import type { Level } from '@/data/types';
 import { withAd } from '@/lib/ads';
 import { useApp } from '@/lib/store';
@@ -52,7 +52,7 @@ export default function SubjectScreen() {
         const done = ids.filter((m) => seen[m.id]).length;
         return (
           <Row key={t.id} icon="format-list-checks" colors={sub.colors} title={t.title}
-            sub={`${t.qs.length} MCQs • ${t.level.map((l) => LEVEL_LABEL[l]).join(', ')}`}
+            sub={`${topicCount(sub.key, t.id)} MCQs • ${t.level.map((l) => LEVEL_LABEL[l]).join(', ')}`}
             onPress={() => start(t.id)}
             right={<View style={{ width: 46, gap: 4, alignItems: 'flex-end' }}>
               <Text style={{ color: c.sub, fontFamily: font.semi, fontSize: 11.5 }}>{done}/{ids.length}</Text>

@@ -5,21 +5,23 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon, type IconName, TAB_BAR_H, Tap } from '@/components/ui';
+import { useApp } from '@/lib/store';
 import { font, useTheme } from '@/lib/theme';
 
 type BarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
-const TABS: { name: string; icon: IconName; active: IconName; label: string }[] = [
-  { name: 'index', icon: 'home-variant-outline', active: 'home-variant', label: 'Home' },
-  { name: 'study', icon: 'book-open-page-variant-outline', active: 'book-open-page-variant', label: 'Study' },
-  { name: 'tests', icon: 'clipboard-text-outline', active: 'clipboard-text', label: 'Tests' },
-  { name: 'boards', icon: 'school-outline', active: 'school', label: 'Results' },
-  { name: 'more', icon: 'view-grid-outline', active: 'view-grid', label: 'More' },
+const TABS: { name: string; icon: IconName; active: IconName; label: string; ur: string }[] = [
+  { name: 'index', icon: 'home-variant-outline', active: 'home-variant', label: 'Home', ur: 'ہوم' },
+  { name: 'study', icon: 'book-open-page-variant-outline', active: 'book-open-page-variant', label: 'Study', ur: 'پڑھائی' },
+  { name: 'tests', icon: 'clipboard-text-outline', active: 'clipboard-text', label: 'Tests', ur: 'ٹیسٹ' },
+  { name: 'boards', icon: 'school-outline', active: 'school', label: 'Results', ur: 'رزلٹ' },
+  { name: 'more', icon: 'view-grid-outline', active: 'view-grid', label: 'More', ur: 'مزید' },
 ];
 
 function TabBar({ state, navigation }: BarProps) {
   const c = useTheme();
   const insets = useSafeAreaInsets();
+  const urdu = useApp((st) => st.lang === 'ur');
   const [w, setW] = useState(0);
   const x = useSharedValue(0);
   const tabW = w / TABS.length;
@@ -49,7 +51,7 @@ function TabBar({ state, navigation }: BarProps) {
             return (
               <Tap key={t.name} style={styles.tab} onPress={() => !on && navigation.navigate(t.name)} accessibilityLabel={t.label}>
                 <Icon name={on ? t.active : t.icon} size={23} color={on ? c.primary : c.faint} />
-                <Text style={[styles.label, { color: on ? c.primary : c.faint, fontFamily: on ? font.semi : font.regular }]}>{t.label}</Text>
+                <Text style={[styles.label, { color: on ? c.primary : c.faint, fontFamily: urdu ? font.urdu : on ? font.semi : font.regular }, urdu && { fontSize: 11, lineHeight: 20, marginTop: -2 }]}>{urdu ? t.ur : t.label}</Text>
               </Tap>
             );
           })}

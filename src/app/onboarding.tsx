@@ -29,6 +29,7 @@ export default function Onboarding() {
   const [level, setLevel] = useState<'matric' | 'inter' | 'graduate'>('inter');
   const [goal, setGoal] = useState('');
   const [board, setBoard] = useState<string | null>(null);
+  const lang = useApp((s) => s.lang);
 
   const done = () => {
     useApp.getState().set({ name: name.trim(), level, goal: goal || null, boardId: board, onboarded: true });
@@ -51,6 +52,11 @@ export default function Onboarding() {
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: insets.bottom + 30 }} keyboardShouldPersistTaps="handled">
         {step === 0 && (
           <>
+            <Text style={{ color: c.text, fontFamily: font.bold, fontSize: 18, marginBottom: 8 }}>Language / زبان</Text>
+            <View style={{ flexDirection: 'row', gap: 8, marginBottom: 18 }}>
+              <Chip label="English" active={lang === 'en'} onPress={() => useApp.getState().set({ lang: 'en' })} />
+              <Chip label="اردو" active={lang === 'ur'} onPress={() => useApp.getState().set({ lang: 'ur' })} />
+            </View>
             <Text style={{ color: c.text, fontFamily: font.bold, fontSize: 18, marginBottom: 6 }}>Aap ka naam?</Text>
             <TextInput value={name} onChangeText={setName} placeholder="Your name (optional)" placeholderTextColor={c.faint}
               style={{ borderWidth: 1, borderColor: c.border, backgroundColor: c.card, borderRadius: 14, height: 50, paddingHorizontal: 14, color: c.text, fontFamily: font.regular, fontSize: 15 }} />

@@ -8,6 +8,7 @@ import { Pressable, type PressableProps, ScrollView, type StyleProp, StyleSheet,
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BottomBanner } from '@/lib/ads';
+import { useApp } from '@/lib/store';
 import { font, useTheme } from '@/lib/theme';
 
 const APressable = Animated.createAnimatedComponent(Pressable);
@@ -59,6 +60,12 @@ export function useTabBarSpace() {
 }
 
 const isUrdu = (s: string) => /[؀-ۿ]/.test(s);
+/** Style patch that switches a text to the Nastaliq font when it is Urdu. */
+export function ur(text: string | undefined, bold = false, size?: number) {
+  if (!text || !isUrdu(text)) return null;
+  return { fontFamily: bold ? font.urduBold : font.urdu, lineHeight: Math.round((size ?? 15) * 2), writingDirection: 'rtl' as const };
+}
+const useUrduUi = () => useApp((st) => st.lang === 'ur');
 /** Text that switches to the Nastaliq font (and right alignment) when it is Urdu. */
 export function T({ children, style, bold, numberOfLines }: { children: string; style?: any; bold?: boolean; numberOfLines?: number }) {
   const ur = isUrdu(children);
@@ -85,8 +92,8 @@ export function Screen({ title, subtitle, colors, children, right, scroll = true
             <Icon name="arrow-left" size={22} color="#fff" />
           </Tap>
           <View style={{ flex: 1 }}>
-            <Text style={styles.heroTitle} numberOfLines={1}>{title}</Text>
-            {!!subtitle && <Text style={styles.heroSub} numberOfLines={1}>{subtitle}</Text>}
+            <Text style={[styles.heroTitle, ur(title, true, 18)]} numberOfLines={1}>{title}</Text>
+            {!!subtitle && <Text style={[styles.heroSub, ur(subtitle, false, 12)]} numberOfLines={1}>{subtitle}</Text>}
           </View>
           {right}
         </View>
@@ -108,16 +115,19 @@ export function Card({ children, style, onPress }: { children: ReactNode; style?
 }
 
 /** Icon + title + subtitle + chevron row, the workhorse of every list. */
-export function Row({ icon, colors, title, sub, right, onPress, ur }:
+export function Row({ icon, colors, title, sub, right, onPress, ur: urLabel }:
   { icon: IconName; colors?: [string, string]; title: string; sub?: string; right?: ReactNode; onPress?: () => void; ur?: string }) {
   const c = useTheme();
+  const swap = useUrduUi() && !!urLabel;
+  const main = swap ? urLabel! : title;
+  const second = swap ? title : urLabel;
   return (
     <Tap onPress={onPress} style={[styles.row, { backgroundColor: c.card, borderColor: c.border }]}>
       <IconBadge icon={icon} colors={colors} />
       <View style={{ flex: 1 }}>
-        <Text style={[styles.rowTitle, { color: c.text }]} numberOfLines={2}>{title}</Text>
-        {!!ur && <Text style={[styles.rowUr, { color: c.sub }]} numberOfLines={1}>{ur}</Text>}
-        {!!sub && <Text style={[styles.rowSub, { color: c.sub }]} numberOfLines={2}>{sub}</Text>}
+        <Text style={[styles.rowTitle, { color: c.text }, ur(main, true, 15)]} numberOfLines={2}>{main}</Text>
+        {!!second && <Text style={[styles.rowUr, { color: c.sub }, swap && { fontFamily: font.regular, lineHeight: undefined }]} numberOfLines={1}>{second}</Text>}
+        {!!sub && <Text style={[styles.rowSub, { color: c.sub }, ur(sub, false, 12.5)]} numberOfLines={2}>{sub}</Text>}
       </View>
       {right ?? (onPress ? <Icon name="chevron-right" size={22} color={c.faint} /> : null)}
     </Tap>
@@ -135,14 +145,15 @@ export function IconBadge({ icon, colors, size = 42 }: { icon: IconName; colors?
 }
 
 /** Square tile for grids (home, tools). */
-export function Tile({ icon, colors, title, ur, onPress, badge }:
+export function Tile({ icon, colors, title, ur: urLabel, onPress, badge }:
   { icon: IconName; colors: [string, string]; title: string; ur?: string; onPress: () => void; badge?: string }) {
   const c = useTheme();
+  const swap = useUrduUi() && !!urLabel;
   return (
     <Tap onPress={onPress} style={[styles.tile, { backgroundColor: c.card, borderColor: c.border }]}>
       <IconBadge icon={icon} colors={colors} size={46} />
-      <Text style={[styles.tileTitle, { color: c.text }]} numberOfLines={2}>{title}</Text>
-      {!!ur && <Text style={[styles.tileUr, { color: c.sub }]} numberOfLines={1}>{ur}</Text>}
+      <Text style={[styles.tileTitle, { color: c.text }, swap && ur(urLabel, true, 13)]} numberOfLines={2}>{swap ? urLabel : title}</Text>
+      {!!urLabel && <Text style={[styles.tileUr, { color: c.sub }, swap && { fontFamily: font.regular, lineHeight: undefined }]} numberOfLines={1}>{swap ? title : urLabel}</Text>}
       {!!badge && <View style={[styles.tileBadge, { backgroundColor: c.accent }]}><Text style={styles.tileBadgeText}>{badge}</Text></View>}
     </Tap>
   );
@@ -156,7 +167,7 @@ export function SectionTitle({ title, action, onAction }: { title: string; actio
   const c = useTheme();
   return (
     <View style={styles.section}>
-      <Text style={[styles.sectionTitle, { color: c.text }]}>{title}</Text>
+      <Text style={[styles.sectionTitle, { color: c.text }, ur(title, true, 16)]}>{title}</Text>
       {!!action && <Tap onPress={onAction} haptic={false}><Text style={[styles.sectionAction, { color: c.primary }]}>{action}</Text></Tap>}
     </View>
   );
@@ -166,7 +177,7 @@ export function Chip({ label, active, onPress }: { label: string; active?: boole
   const c = useTheme();
   return (
     <Tap onPress={onPress} style={[styles.chip, { backgroundColor: active ? c.primary : c.card, borderColor: active ? c.primary : c.border }]}>
-      <Text style={[styles.chipText, { color: active ? '#fff' : c.text }]} numberOfLines={1}>{label}</Text>
+      <Text style={[styles.chipText, { color: active ? '#fff' : c.text }, ur(label, false, 13)]} numberOfLines={1}>{label}</Text>
     </Tap>
   );
 }
@@ -183,7 +194,7 @@ export function Btn({ label, icon, onPress, color, kind = 'solid', style, disabl
   return (
     <Tap onPress={disabled ? undefined : onPress} style={[styles.btn, { backgroundColor: bg, opacity: disabled ? 0.5 : 1 }, style]}>
       {icon && <Icon name={icon} size={20} color={fg} />}
-      <Text style={[styles.btnText, { color: fg }]} numberOfLines={1}>{label}</Text>
+      <Text style={[styles.btnText, { color: fg }, ur(label, true, 14)]} numberOfLines={1}>{label}</Text>
     </Tap>
   );
 }
@@ -206,7 +217,7 @@ export function Note({ text, icon = 'information-outline', tone = 'info' }: { te
   return (
     <View style={[styles.note, { backgroundColor: bg }]}>
       <Icon name={icon} size={18} color={fg} />
-      <Text style={[styles.noteText, { color: c.text }]}>{text}</Text>
+      <Text style={[styles.noteText, { color: c.text }, ur(text, false, 13)]}>{text}</Text>
     </View>
   );
 }
@@ -216,8 +227,8 @@ export function Empty({ icon, title, hint }: { icon: IconName; title: string; hi
   return (
     <View style={styles.empty}>
       <View style={[styles.emptyIcon, { backgroundColor: c.primarySoft }]}><Icon name={icon} size={44} color={c.primary} /></View>
-      <Text style={[styles.emptyTitle, { color: c.text }]}>{title}</Text>
-      <Text style={[styles.emptyHint, { color: c.sub }]}>{hint}</Text>
+      <Text style={[styles.emptyTitle, { color: c.text }, ur(title, true, 17)]}>{title}</Text>
+      <Text style={[styles.emptyHint, { color: c.sub }, ur(hint, false, 13)]}>{hint}</Text>
     </View>
   );
 }

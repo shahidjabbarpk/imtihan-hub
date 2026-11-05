@@ -236,3 +236,22 @@ export const TESTS: Test[] = [
 ];
 
 export const testByKey = (k: string) => TESTS.find((t) => t.key === k);
+
+const OVERRIDABLE = ['about', 'pattern', 'facts', 'syllabus', 'tips', 'mix', 'minutes', 'links', 'paper'] as const;
+const ORIGINAL = new Map(TESTS.map((t) => [t.key, { ...t }]));
+
+/**
+ * When a testing body changes its pattern, syllabus or dates, the change is published in the
+ * online content feed ("tests": { "mdcat": { "pattern": [...] } }) and applied here - no app update.
+ */
+export function applyTestOverrides(over: Record<string, Record<string, unknown>> = {}) {
+  for (const t of TESTS) {
+    const base = ORIGINAL.get(t.key)!;
+    const o = over[t.key] ?? {};
+    for (const k of OVERRIDABLE) {
+      const v = o[k];
+      const ok = v != null && (Array.isArray(base[k]) ? Array.isArray(v) : typeof v === typeof base[k] || k === 'paper');
+      (t as any)[k] = ok ? v : base[k];
+    }
+  }
+}

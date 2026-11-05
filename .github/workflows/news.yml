@@ -1,0 +1,33 @@
+name: Update news feed
+
+on:
+  schedule:
+    - cron: "23 */4 * * *"   # every 4 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data
+  cancel-in-progress: false
+
+jobs:
+  news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: node scripts/auto/news.mjs
+      - name: Commit
+        run: |
+          git config user.name "imtihan-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/news.json
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "news: $(date -u +%FT%TZ)"
+          git pull --rebase -X theirs origin main
+          git push

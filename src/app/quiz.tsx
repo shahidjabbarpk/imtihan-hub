@@ -5,8 +5,10 @@ import { Alert, BackHandler, Platform, ScrollView, StyleSheet, Text, View } from
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Btn, Empty, haptic, Icon, T, Tap, useStatusBar } from '@/components/ui';
-import { subjectByKey } from '@/data/bank';
-import { maybeShowInterstitial, withAd } from '@/lib/ads';
+import { subjectByKey, urduOf } from '@/data/bank';
+import { maybeShowInterstitial, withAd, withRewarded } from '@/lib/ads';
+import { useL } from '@/lib/i18n';
+import { submitGrand, syncPoints, type Track } from '@/lib/leaderboard';
 import { exportPaper } from '@/lib/paper';
 import { buildSession, type QuizParams } from '@/lib/session';
 import { useApp } from '@/lib/store';
@@ -38,8 +40,14 @@ export default function Quiz() {
   const started = useRef(Date.now());
   const [elapsed, setElapsed] = useState(0);
   const bookmarks = useApp((s) => s.bookmarks);
+  const lbOn = useApp((s) => s.lbOn);
+  const L = useL();
+  const [showUr, setShowUr] = useState(useApp.getState().lang === 'ur');
+  const [ranked, setRanked] = useState<'yes' | 'no' | null>(null);
 
-  const q = qs[idx];
+  const raw = qs[idx];
+  const urq = raw ? urduOf(raw) : null;
+  const q = raw && showUr && urq ? { ...raw, q: urq.q, o: urq.o, e: urq.e ?? raw.e } : raw;
   const choice = picked[idx] ?? null;
   const answered = picked.filter((p) => p != null).length;
   const score = picked.filter((p, i) => p === qs[i]?.a).length;
@@ -58,6 +66,9 @@ export default function Quiz() {
     const secs = Math.round((Date.now() - started.current) / 1000);
     setElapsed(secs);
     st.finish({ at: Date.now(), title: session.title, kind: session.kind, score, total: qs.length, seconds: secs }, session.key);
+    if (session.kind === 'grand' && session.track) {
+      submitGrand(session.track as Track, score, qs.length, secs).then((ok) => setRanked(ok ? 'yes' : 'no')).finally(() => syncPoints());
+    } else syncPoints();
     setDone(true);
     haptic('medium');
     setTimeout(maybeShowInterstitial, 1500);
@@ -95,7 +106,7 @@ export default function Quiz() {
 
   const goNext = () => {
     if (idx + 1 < qs.length) setIdx(idx + 1);
-    else if (examMode) confirm('Submit test?', `You answered ${answered} of ${qs.length}.`, finish);
+    else if (examMode) confirm(L('Submit test?', 'ٹیسٹ جمع کروائیں؟'), L(`You answered ${answered} of ${qs.length}.`, `آپ نے ${qs.length} میں سے ${answered} سوال حل کیے۔`), finish);
     else finish();
   };
 
@@ -111,7 +122,7 @@ export default function Quiz() {
 
   const close = () => {
     if (done || answered === 0) router.back();
-    else confirm('Leave the test?', 'Your answers in this session will be lost.', () => router.back());
+    else confirm(L('Leave the test?', 'ٹیسٹ چھوڑ دیں؟'), L('Your answers in this session will be lost.', 'اس ٹیسٹ کے جوابات ختم ہو جائیں گے۔'), () => router.back());
   };
 
   const header = (
@@ -119,6 +130,11 @@ export default function Quiz() {
       <View style={s.heroRow}>
         <Tap onPress={close} style={s.round}><Icon name="close" size={22} color="#fff" /></Tap>
         <Text style={s.heroTitle} numberOfLines={1}>{session.title}</Text>
+        {!done && !!urq && (
+          <Tap onPress={() => setShowUr(!showUr)} style={[s.langBtn, showUr && { backgroundColor: '#fff' }]} accessibilityLabel="Urdu / English">
+            <Text style={{ color: showUr ? session.colors[0] : '#fff', fontFamily: font.semi, fontSize: 12 }}>{showUr ? 'EN' : 'اردو'}</Text>
+          </Tap>
+        )}
         {!done && !!seconds && <Text style={[s.counter, left < 60 && { color: '#FFE08A' }]}>⏱ {fmt(Math.max(0, left))}</Text>}
         {!done && !!qs.length && <Text style={s.counter}>{idx + 1}/{qs.length}</Text>}
       </View>
@@ -130,7 +146,7 @@ export default function Quiz() {
     return (
       <View style={{ flex: 1, backgroundColor: c.bg }}>
         {header}
-        <Empty icon="playlist-remove" title="No questions here yet" hint="Save MCQs with the bookmark button, or answer some questions first – your mistakes collect here." />
+        <Empty icon="playlist-remove" title={L('No questions here yet', 'یہاں ابھی کوئی سوال نہیں')} hint={L('Save MCQs with the bookmark button, or answer some questions first – your mistakes collect here.', 'بک مارک دبا کر سوال محفوظ کریں، یا پہلے کچھ سوال حل کریں – غلط جوابات یہاں جمع ہوں گے۔')} />
       </View>
     );
   }
@@ -140,6 +156,8 @@ export default function Quiz() {
     const color = pct >= 70 ? c.ok : pct >= 40 ? c.warn : c.danger;
     const wrongN = answered - score;
     const skipped = qs.length - answered;
+    const neg = session.negative;
+    const marks = Math.round((score - neg * Math.max(0, wrongN)) * 100) / 100;
     // per-subject breakdown for mixed tests
     const bySub = new Map<string, { n: number; r: number }>();
     qs.forEach((m, i) => {
@@ -153,25 +171,48 @@ export default function Quiz() {
         {header}
         <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }}>
           <View style={[s.result, { backgroundColor: c.card, borderColor: c.border }]}>
-            <Text style={{ color: c.sub, fontFamily: font.medium }}>Your score</Text>
+            <Text style={{ color: c.sub, fontFamily: font.medium }}>{L('Your score', 'آپ کا اسکور')}</Text>
             <View style={[s.ring, { borderColor: color }]}>
               <Text style={[s.pct, { color }]}>{pct}%</Text>
               <Text style={{ color: c.sub, fontFamily: font.medium }}>{score} / {qs.length}</Text>
             </View>
             <View style={s.resRow}>
-              <Mini label="Correct" v={score} color={c.ok} />
-              <Mini label="Wrong" v={Math.max(0, wrongN)} color={c.danger} />
-              <Mini label="Skipped" v={skipped} color={c.faint} />
-              <Mini label="Time" v={fmt(elapsed)} color={c.primary} />
+              <Mini label={L('Correct', 'درست')} v={score} color={c.ok} />
+              <Mini label={L('Wrong', 'غلط')} v={Math.max(0, wrongN)} color={c.danger} />
+              <Mini label={L('Skipped', 'چھوڑے')} v={skipped} color={c.faint} />
+              <Mini label={L('Time', 'وقت')} v={fmt(elapsed)} color={c.primary} />
             </View>
+            {neg > 0 && (
+              <View style={[s.negBox, { backgroundColor: c.dangerSoft }]}>
+                <Text style={{ color: c.text, fontFamily: font.semi, textAlign: 'center' }}>
+                  {L(`Marks after negative marking: ${marks} / ${qs.length}`, `منفی مارکنگ کے بعد نمبر: ${marks} / ${qs.length}`)}
+                </Text>
+                <Text style={{ color: c.sub, fontFamily: font.regular, fontSize: 12, textAlign: 'center' }}>
+                  {`−${neg} × ${Math.max(0, wrongN)} ` + L('wrong answers; skipped questions cost nothing', 'غلط جوابات؛ چھوڑے گئے سوالوں کا نمبر نہیں کٹتا')}
+                </Text>
+              </View>
+            )}
             <Text style={{ color: c.text, fontFamily: font.semi, textAlign: 'center' }}>
               {pct >= 80 ? 'Excellent! 🏆 Keep it up.' : pct >= 60 ? 'Good work 👍 Revise the wrong ones.' : pct >= 40 ? 'Not bad – practise this topic again.' : 'Read the topic once more, then retry 📖'}
             </Text>
           </View>
 
+          {session.kind === 'grand' && (
+            <View style={[s.result, { backgroundColor: c.card, borderColor: c.border, gap: 8, marginTop: 12 }]}>
+              <Icon name="podium-gold" size={30} color={c.accent} />
+              <Text style={{ color: c.text, fontFamily: font.semi, textAlign: 'center' }}>
+                {ranked === 'yes' ? L("Your score is on this week's leaderboard!", 'آپ کا اسکور اس ہفتے کے لیڈر بورڈ پر آ گیا!')
+                  : !lbOn ? L('Join the leaderboard in Settings to rank your grand test scores.', 'اپنا نمبر لیڈر بورڈ پر دیکھنے کے لیے سیٹنگز میں لیڈر بورڈ آن کریں۔')
+                  : ranked === 'no' ? L('Only your first attempt each week is ranked (or you are offline).', 'ہر ہفتے صرف پہلی کوشش شمار ہوتی ہے (یا انٹرنیٹ بند ہے)۔')
+                  : L('Saving your score…', 'اسکور محفوظ ہو رہا ہے…')}
+              </Text>
+              <Btn label={L('See leaderboard', 'لیڈر بورڈ دیکھیں')} icon="trophy-outline" kind="soft" onPress={() => router.push({ pathname: '/leaderboard', params: { track: session.track } })} />
+            </View>
+          )}
+
           {bySub.size > 1 && (
             <View style={[s.result, { backgroundColor: c.card, borderColor: c.border, alignItems: 'stretch', gap: 8, marginTop: 12 }]}>
-              <Text style={{ color: c.text, fontFamily: font.bold }}>Subject-wise</Text>
+              <Text style={{ color: c.text, fontFamily: font.bold }}>{L('Subject-wise', 'مضمون وار')}</Text>
               {[...bySub.entries()].map(([k, b]) => (
                 <View key={k} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Text style={{ color: c.text, fontFamily: font.regular }}>{subjectByKey(k)?.title ?? k}</Text>
@@ -182,21 +223,23 @@ export default function Quiz() {
           )}
 
           <View style={{ flexDirection: 'row', gap: 10, marginTop: 14 }}>
-            <Btn label="Try again" icon="refresh" onPress={restart} color={session.colors[0]} style={{ flex: 1 }} />
-            <Btn label="Done" icon="check" kind="soft" onPress={() => router.back()} style={{ flex: 1 }} />
+            <Btn label={L('Try again', 'دوبارہ')} icon="refresh" onPress={restart} color={session.colors[0]} style={{ flex: 1 }} />
+            <Btn label={L('Done', 'ختم')} icon="check" kind="soft" onPress={() => router.back()} style={{ flex: 1 }} />
           </View>
-          <Btn label="Save as PDF paper" icon="file-pdf-box" kind="soft" style={{ marginTop: 10 }}
-            onPress={() => exportPaper(session.title, qs, Math.max(10, Math.round(qs.length * 1.2))).catch(() => {})} />
+          <Btn label={L('Save as PDF paper', 'پی ڈی ایف پرچہ بنائیں')} icon="file-pdf-box" kind="soft" style={{ marginTop: 10 }}
+            onPress={() => withRewarded('PDF paper', () => { exportPaper(session.title, qs, Math.max(10, Math.round(qs.length * 1.2))).catch(() => {}); })} />
 
-          <Text style={{ color: c.text, fontFamily: font.bold, fontSize: 16, marginTop: 20, marginBottom: 6 }}>Answer review</Text>
-          {qs.map((m, i) => {
+          <Text style={{ color: c.text, fontFamily: font.bold, fontSize: 16, marginTop: 20, marginBottom: 6 }}>{L('Answer review (with explanations)', 'جوابات اور وضاحت')}</Text>
+          {qs.map((m0, i) => {
+            const u = showUr ? urduOf(m0) : null;
+            const m = u ? { ...m0, q: u.q, o: u.o, e: u.e ?? m0.e } : m0;
             const ok = picked[i] === m.a;
             return (
               <View key={m.id + i} style={[s.review, { backgroundColor: c.card, borderColor: ok ? c.ok : picked[i] == null ? c.border : c.danger }]}>
                 <T style={[s.reviewQ, { color: c.text }]} bold>{`${i + 1}. ${m.q}`}</T>
                 {!ok && picked[i] != null && <T style={[s.reviewA, { color: c.danger }]}>{`✗ ${m.o[picked[i]!]}`}</T>}
                 <T style={[s.reviewA, { color: c.ok }]}>{`✓ ${m.o[m.a]}`}</T>
-                {!!m.e && <Text style={[s.expl, { color: c.sub }]}>{m.e}</Text>}
+                {!!m.e && <T style={[s.expl, { color: c.sub }]}>{`💡 ${m.e}`}</T>}
               </View>
             );
           })}
@@ -206,6 +249,7 @@ export default function Quiz() {
   }
 
   const saved = !!bookmarks[q!.id];
+  const subj = subjectByKey(q!.sub);
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
       {header}
@@ -221,7 +265,7 @@ export default function Quiz() {
       ) : (
         <ScrollView contentContainerStyle={{ padding: 18, paddingBottom: 130 }}>
           <View style={s.qTop}>
-            <Text style={[s.qSub, { color: c.sub }]}>{subjectByKey(q!.sub)?.title}</Text>
+            <Text style={[s.qSub, { color: c.sub }]}>{subj?.title}{session.negative ? `  •  −${session.negative} per wrong` : ''}</Text>
             <Tap onPress={() => useApp.getState().toggleBookmark(q!.id)} hitSlop={10} accessibilityLabel="Save question">
               <Icon name={saved ? 'bookmark' : 'bookmark-outline'} size={24} color={saved ? c.accent : c.faint} />
             </Tap>
@@ -247,9 +291,9 @@ export default function Quiz() {
           {!examMode && choice != null && (
             <View style={[s.explBox, { backgroundColor: choice === q!.a ? c.okSoft : c.dangerSoft }]}>
               <Icon name={choice === q!.a ? 'check-decagram' : 'lightbulb-on-outline'} size={18} color={choice === q!.a ? c.ok : c.danger} />
-              <Text style={[s.expl, { color: c.text, flex: 1, marginTop: 0 }]}>
-                {choice === q!.a ? 'Correct!' : `Correct answer: ${q!.o[q!.a]}`}{q!.e ? `\n${q!.e}` : ''}
-              </Text>
+              <T style={[s.expl, { color: c.text, flex: 1, marginTop: 0 }]}>
+                {`${choice === q!.a ? L('Correct!', 'درست!') : `${L('Correct answer', 'درست جواب')}: ${q!.o[q!.a]}`}${q!.e ? `\n${q!.e}` : ''}`}
+              </T>
             </View>
           )}
         </ScrollView>
@@ -266,18 +310,18 @@ export default function Quiz() {
           </Tap>
         )}
         {examMode && (
-          <Tap onPress={() => confirm('Submit test?', `You answered ${answered} of ${qs.length}.`, finish)} style={[s.small, { backgroundColor: c.cardAlt, width: 86 }]}>
-            <Text style={{ color: c.text, fontFamily: font.semi }}>Submit</Text>
+          <Tap onPress={() => confirm(L('Submit test?', 'ٹیسٹ جمع کروائیں؟'), L(`You answered ${answered} of ${qs.length}.`, `آپ نے ${qs.length} میں سے ${answered} سوال حل کیے۔`), finish)} style={[s.small, { backgroundColor: c.cardAlt, width: 86 }]}>
+            <Text style={{ color: c.text, fontFamily: font.semi }}>{L('Submit', 'جمع')}</Text>
           </Tap>
         )}
         {(examMode || choice != null) && (
           <Tap onPress={goNext} style={[s.next, { backgroundColor: session.colors[0] }]}>
-            <Text style={{ color: '#fff', fontFamily: font.semi, fontSize: 15 }}>{idx + 1 < qs.length ? 'Next' : 'Finish'}</Text>
+            <Text style={{ color: '#fff', fontFamily: font.semi, fontSize: 15 }}>{idx + 1 < qs.length ? L('Next', 'اگلا') : L('Finish', 'ختم')}</Text>
             <Icon name="arrow-right" size={20} color="#fff" />
           </Tap>
         )}
         {!examMode && choice == null && (
-          <Text style={{ flex: 1, textAlign: 'center', color: c.sub, fontFamily: font.regular, fontSize: 12.5 }}>Choose an option to see the answer</Text>
+          <Text style={{ flex: 1, textAlign: 'center', color: c.sub, fontFamily: font.regular, fontSize: 12.5 }}>{L('Choose an option to see the answer', 'جواب دیکھنے کے لیے کوئی آپشن چنیں')}</Text>
         )}
       </View>
     </View>
@@ -318,6 +362,8 @@ const s = StyleSheet.create({
   ring: { width: 140, height: 140, borderRadius: 70, borderWidth: 10, alignItems: 'center', justifyContent: 'center' },
   pct: { fontFamily: font.bold, fontSize: 34 },
   resRow: { flexDirection: 'row', alignSelf: 'stretch' },
+  langBtn: { paddingHorizontal: 10, height: 30, borderRadius: 15, borderWidth: 1, borderColor: '#fff', alignItems: 'center', justifyContent: 'center' },
+  negBox: { alignSelf: 'stretch', borderRadius: 14, padding: 10, gap: 2 },
   review: { borderRadius: 14, padding: 12, borderWidth: 1.5, marginTop: 10 },
   reviewQ: { fontSize: 13.5 },
   reviewA: { fontSize: 13, marginTop: 4 },

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Platform, View } from 'react-native';
-import mobileAds, { AdEventType, BannerAd, BannerAdSize, InterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+import { Alert } from 'react-native';
+import mobileAds, { AdEventType, BannerAd, BannerAdSize, InterstitialAd, RewardedAd, RewardedAdEventType, TestIds } from 'react-native-google-mobile-ads';
 import { FULLSCREEN_GAP_MS, PROD_AD_UNITS } from './config';
 import { useApp } from './store';
 
@@ -9,13 +10,14 @@ const useTest = __DEV__ || !prod.banner;
 const UNITS = {
   banner: useTest ? TestIds.ADAPTIVE_BANNER : prod.banner,
   interstitial: useTest ? TestIds.INTERSTITIAL : prod.interstitial,
+  rewarded: useTest || !prod.rewarded ? TestIds.REWARDED : prod.rewarded,
 };
 
 let started = false;
 export function startAds() {
   if (started) return;
   started = true;
-  mobileAds().initialize().then(() => loadInterstitial()).catch(() => {});
+  mobileAds().initialize().then(() => { loadInterstitial(); loadRewarded(); }).catch(() => {});
 }
 
 // ---------------------------------------------------------------- full-screen
@@ -81,6 +83,45 @@ export function adOnOpen(then: () => void) {
   }
   freeOpens += 1;
   then();
+}
+
+// ---------------------------------------------------------------- rewarded
+// "Watch a short video to unlock": full-length papers, PDF papers and the grand-test answer key.
+// If no video is available the student still gets the feature - an ad must never block studying.
+
+let rewarded: RewardedAd | null = null;
+let rewardedReady = false;
+
+function loadRewarded() {
+  rewarded = RewardedAd.createForAdRequest(UNITS.rewarded);
+  rewardedReady = false;
+  rewarded.addAdEventListener(RewardedAdEventType.LOADED, () => { rewardedReady = true; });
+  rewarded.addAdEventListener(AdEventType.ERROR, () => { rewardedReady = false; setTimeout(loadRewarded, 60_000); });
+  rewarded.load();
+}
+
+/** Asks to watch a rewarded video, then runs `then` (also when no video is available). */
+export function withRewarded(what: string, then: () => void) {
+  if (!rewarded || !rewardedReady) { then(); return; }
+  Alert.alert('Unlock ' + what, 'Watch a short video to unlock this for free.', [
+    { text: 'Cancel', style: 'cancel' },
+    {
+      text: 'Watch video',
+      onPress: () => {
+        const ad = rewarded!;
+        let earned = false;
+        const offEarn = ad.addAdEventListener(RewardedAdEventType.EARNED_REWARD, () => { earned = true; });
+        const offClose = ad.addAdEventListener(AdEventType.CLOSED, () => {
+          offEarn(); offClose();
+          useApp.getState().set({ lastInterstitial: Date.now() });
+          loadRewarded();
+          if (earned) then();
+        });
+        rewardedReady = false;
+        ad.show().catch(() => { offEarn(); offClose(); loadRewarded(); then(); });
+      },
+    },
+  ]);
 }
 
 // ---------------------------------------------------------------- banner

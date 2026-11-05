@@ -4,6 +4,7 @@ import { Switch, Text, View } from 'react-native';
 import { Btn, Card, Chip, Chips, Screen, SectionTitle, Tap, IconBadge } from '@/components/ui';
 import { countOf, SUBJECTS } from '@/data/bank';
 import { withAd } from '@/lib/ads';
+import { useApp } from '@/lib/store';
 import { font, useTheme } from '@/lib/theme';
 
 const COUNTS = [20, 50, 100, 180];
@@ -15,6 +16,8 @@ export default function Custom() {
   const [count, setCount] = useState(50);
   const [minutes, setMinutes] = useState(30);
   const [exam, setExam] = useState(true);
+  const negative = useApp((s) => s.negative);
+  const [neg, setNeg] = useState(negative);
   const toggle = (k: string) => setSubs((x) => (x.includes(k) ? x.filter((y) => y !== k) : [...x, k]));
   const pool = subs.reduce((n, k) => n + countOf(k), 0);
 
@@ -44,11 +47,18 @@ export default function Custom() {
         </View>
         <Switch value={exam} onValueChange={setExam} trackColor={{ true: c.primary, false: c.border }} thumbColor="#fff" />
       </Card>
+      {exam && (
+        <>
+          <SectionTitle title="Negative marking" />
+          <Chips>{[0, 0.25, 0.33, 0.5, 1].map((v) => <Chip key={v} label={v ? `−${v} per wrong` : 'Off'} active={neg === v} onPress={() => setNeg(v)} />)}</Chips>
+          <View style={{ height: 10 }} />
+        </>
+      )}
       <Text style={{ color: c.sub, fontFamily: font.regular, fontSize: 12.5, marginBottom: 10 }}>
         {subs.length ? `${pool} MCQs available in the chosen subjects${pool < count ? ` – the test will have ${pool}` : ''}.` : 'Choose at least one subject.'}
       </Text>
       <Btn label="Start test" icon="play" disabled={!subs.length}
-        onPress={() => withAd(() => router.push({ pathname: '/quiz', params: { mode: 'custom', subs: subs.join(','), count: String(count), minutes: String(minutes), exam: exam ? '1' : '' } }))} />
+        onPress={() => withAd(() => router.push({ pathname: '/quiz', params: { mode: 'custom', subs: subs.join(','), count: String(count), minutes: String(minutes), exam: exam ? '1' : '', neg: exam ? String(neg) : '0' } }))} />
     </Screen>
   );
 }

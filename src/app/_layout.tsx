@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { startAds } from '@/lib/ads';
+import { applyStoredContent, refreshContent } from '@/lib/content';
 import { refreshNews } from '@/lib/news';
 import { useApp, waitForHydration } from '@/lib/store';
 import { useTheme } from '@/lib/theme';
@@ -44,8 +45,10 @@ export default function RootLayout() {
   useEffect(() => { if (fonts) SplashScreen.hideAsync().catch(() => {}); }, [fonts]);
   useEffect(() => {
     waitForHydration().then(() => {
+      applyStoredContent();
       setHydrated(true);
       refreshNews().catch(() => {});
+      refreshContent().catch(() => {});
       if (Platform.OS !== 'web') startAds();
     });
   }, []);

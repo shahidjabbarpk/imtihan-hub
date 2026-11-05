@@ -24,6 +24,11 @@ export default function More() {
           <Tile icon="tune-variant" colors={['#4338CA', '#818CF8']} title="Custom Test" ur="اپنا ٹیسٹ" onPress={() => router.push('/custom')} />
         </Grid>
 
+        <SectionTitle title="Compete & Practise" />
+        <Row icon="trophy-outline" colors={['#B45309', '#F59E0B']} title="Weekly Grand Test" ur="گرینڈ ٹیسٹ" onPress={() => router.push('/grand')} />
+        <Row icon="podium-gold" colors={['#0369A1', '#38BDF8']} title="Leaderboard" ur="لیڈر بورڈ" onPress={() => router.push('/leaderboard')} />
+        <Row icon="file-document-multiple-outline" colors={['#9D174D', '#F472B6']} title="Past Papers" ur="پرانے پرچے" onPress={() => router.push('/papers')} />
+
         <SectionTitle title="Admissions & Funding" />
         <Row icon="town-hall" colors={['#374151', '#9CA3AF']} title="Universities & Admissions" ur="یونیورسٹیاں" onPress={() => router.push('/universities')} />
         <Row icon="hand-coin-outline" colors={['#047857', '#34D399']} title="Scholarships (Pakistan & Abroad)" ur="وظائف" onPress={() => router.push('/scholarships')} />
@@ -35,7 +40,7 @@ export default function More() {
 
         <SectionTitle title="You" />
         <Row icon="chart-box-outline" colors={['#1D4ED8', '#60A5FA']} title="My Progress" sub="Accuracy by subject, history, best scores" onPress={() => router.push('/stats')} />
-        <Row icon="cog-outline" colors={['#374151', '#9CA3AF']} title="Settings" sub="Name, class, board, dark mode, daily reminder" onPress={() => router.push('/settings')} />
+        <Row icon="cog-outline" colors={['#374151', '#9CA3AF']} title="Settings" sub="Language (اردو), negative marking, leaderboard, reminder" onPress={() => router.push('/settings')} />
         <Row icon="share-variant-outline" colors={['#047857', '#34D399']} title="Share with friends" sub="WhatsApp, Facebook, any app" onPress={() => shareApp()} />
         <Row icon="shield-lock-outline" colors={['#374151', '#9CA3AF']} title="Privacy Policy" onPress={() => openOfficial(PRIVACY_URL, false)} />
         <Text style={{ color: c.faint, fontFamily: font.regular, fontSize: 11.5, textAlign: 'center', marginTop: 14, lineHeight: 18 }}>

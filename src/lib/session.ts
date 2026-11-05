@@ -1,11 +1,12 @@
 import { ALL, buildFromMix, mcqById, mcqsOf, seeded, shuffle, shuffleOptions, subjectByKey, SUBJECTS } from '@/data/bank';
+import { grandByKey } from '@/data/grand';
 import { testByKey } from '@/data/tests';
 import type { Level, Mcq } from '@/data/types';
-import { pkToday, useApp } from './store';
+import { pkToday, pkWeek, useApp } from './store';
 
 /** Route params of /quiz. Everything is a string because it comes from the URL. */
 export interface QuizParams {
-  mode?: 'practice' | 'mock' | 'daily' | 'bookmarks' | 'mistakes' | 'custom';
+  mode?: 'practice' | 'mock' | 'daily' | 'bookmarks' | 'mistakes' | 'custom' | 'grand' | 'paper';
   sub?: string;
   topic?: string;
   level?: Level;
@@ -15,21 +16,32 @@ export interface QuizParams {
   subs?: string;   // custom: comma-separated subject keys
   exam?: string;   // "1" = exam mode (answers revealed at the end only)
   full?: string;   // "1" = full-length paper (mock mode)
+  track?: string;  // grand: medical | engineering | general
+  paper?: string;  // paper: id of an online past paper (content feed)
+  neg?: string;    // marks cut per wrong answer, overrides the setting
 }
 
 export interface Session {
   key: string;          // for best-score tracking
   title: string;
   colors: [string, string];
-  kind: 'practice' | 'mock' | 'daily' | 'review';
+  kind: 'practice' | 'mock' | 'daily' | 'review' | 'grand';
   questions: Mcq[];
   seconds: number;      // 0 = untimed
   examMode: boolean;    // no instant feedback; answers can be changed; result at the end
+  negative: number;     // marks cut per wrong answer (0 = none)
+  track?: string;       // grand test track (leaderboard)
 }
 
 const BLUE: [string, string] = ['#1D4ED8', '#60A5FA'];
 
 export function buildSession(p: QuizParams): Session {
+  const sess = build(p);
+  const neg = p.neg != null ? Number(p.neg) : sess.kind === 'mock' && sess.examMode ? useApp.getState().negative : 0;
+  return { ...sess, negative: Number.isFinite(neg) && neg > 0 && neg <= 1 ? neg : 0 };
+}
+
+function build(p: QuizParams): Omit<Session, 'negative'> {
   const count = Math.max(5, Math.min(200, Number(p.count) || 15));
   const examMode = p.exam === '1';
   switch (p.mode) {
@@ -40,6 +52,29 @@ export function buildSession(p: QuizParams): Session {
         return {
           key: full ? `full-${t.key}` : `mock-${t.key}`, title: full ? `${t.name} Full Paper` : `${t.name} Mock Test`, colors: t.colors, kind: 'mock',
           questions: shuffle(buildFromMix(full ? t.paper!.mix : t.mix)), seconds: (full ? t.paper!.minutes : t.minutes) * 60, examMode: true,
+        };
+      }
+      break;
+    }
+    case 'grand': {
+      const g = grandByKey(p.track ?? '');
+      if (g) {
+        const wk = pkWeek();
+        const rnd = seeded([...`${wk}-${g.key}`].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) >>> 0, 7));
+        return {
+          key: `grand-${g.key}`, title: `${g.title} (${wk.slice(5)})`, colors: g.colors, kind: 'grand', track: g.key,
+          questions: shuffle(buildFromMix(g.mix, rnd), rnd), seconds: g.minutes * 60, examMode: true,
+        };
+      }
+      break;
+    }
+    case 'paper': {
+      const paper = useApp.getState().remote?.papers.find((x) => x.id === p.paper);
+      const qs = (paper?.mcqs ?? []).map(mcqById).filter(Boolean) as Mcq[];
+      if (paper && qs.length) {
+        return {
+          key: `paper-${paper.id}`, title: paper.title, colors: ['#9D174D', '#F472B6'], kind: 'mock',
+          questions: qs.map((m) => shuffleOptions(m)), seconds: (paper.minutes ?? Math.max(10, Math.round(qs.length * 1.1))) * 60, examMode: true,
         };
       }
       break;
