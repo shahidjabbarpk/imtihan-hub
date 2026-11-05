@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { Tabs } from 'expo-router';
-import { type ComponentProps, useEffect, useState } from 'react';
+import { type ComponentProps, useEffect, useRef, useState } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,7 +24,13 @@ function TabBar({ state, navigation }: BarProps) {
   const x = useSharedValue(0);
   const tabW = w / TABS.length;
   const idx = TABS.findIndex((t) => t.name === state.routes[state.index]?.name);
-  useEffect(() => { if (idx >= 0) x.value = withTiming(idx * tabW, { duration: 200 }); }, [idx, tabW, x]);
+  const placed = useRef(false);
+  useEffect(() => {
+    if (idx < 0 || !tabW) return;
+    // first placement (app opened on any tab, or after layout) jumps; later tab switches slide
+    if (!placed.current) { x.value = idx * tabW; placed.current = true; }
+    else x.value = withTiming(idx * tabW, { duration: 200 });
+  }, [idx, tabW, x]);
   const pill = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
 
   return (
