@@ -10,7 +10,7 @@ export const NEWS_URL =
 export const CONTENT_URL =
   process.env.EXPO_PUBLIC_CONTENT_URL ?? 'https://raw.githubusercontent.com/shahidjabbarpk/imtihan-hub/main/data/content.json';
 
-export const STORE_URL = 'https://play.google.com/store/apps/details?id=com.imtihanhub.mza';
+export const STORE_URL = 'https://play.google.com/store/apps/details?id=com.examtayari.mza';
 export const PRIVACY_URL = 'https://shahidjabbarpk.github.io/imtihan-hub/privacy.html';
 
 /** Safety floor between any two full-screen ads; the normal rhythm is per quiz (see lib/ads.tsx). */

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Exam Tayari",
     "slug": "imtihan-hub",
-    "scheme": "imtihanhub",
+    "scheme": "examtayari",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,13 +11,13 @@
     "primaryColor": "#1D4ED8",
     "description": "Pakistan exam preparation: Matric & Inter MCQs, MDCAT, ECAT, NUST NET, NTS, CSS, PPSC, FPSC mock tests, board results, roll number slips, date sheets, past papers, merit calculators and scholarships.",
     "ios": {
-      "bundleIdentifier": "com.imtihanhub.mza",
+      "bundleIdentifier": "com.examtayari.mza",
       "buildNumber": "1",
       "supportsTablet": false,
       "infoPlist": { "ITSAppUsesNonExemptEncryption": false }
     },
     "android": {
-      "package": "com.imtihanhub.mza",
+      "package": "com.examtayari.mza",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",

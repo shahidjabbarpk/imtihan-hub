@@ -1,6 +1,6 @@
 # Exam Tayari
 
-Pakistan exam-prep app (Expo 57 / React Native 0.86, expo-router). Package `com.imtihanhub.mza`.
+Pakistan exam-prep app (Expo 57 / React Native 0.86, expo-router). Package `com.examtayari.mza`.
 
 - `src/data/` – MCQ banks (`mcq-*.ts`, tuple format), boards, tests, universities, scholarships, guides
 - `src/lib/session.ts` – builds practice / mock / daily / custom sessions; `src/app/quiz.tsx` runs them
