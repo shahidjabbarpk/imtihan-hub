@@ -16,10 +16,14 @@ export const PRIVACY_URL = 'https://shahidjabbarpk.github.io/imtihan-hub/privacy
 /** Safety floor between any two full-screen ads; the normal rhythm is per quiz (see lib/ads.tsx). */
 export const FULLSCREEN_GAP_MS = 60 * 1000;
 
-// AdMob: create the app "Imtihan Hub" under shahidjabbarpk@gmail.com, then paste the 3 unit ids here
-// and the app id into app.json (react-native-google-mobile-ads androidAppId). Empty = Google test ads.
+// AdMob app "Exam Tayari" (shahidjabbarpk@gmail.com, app id ca-app-pub-2214888899948620~5209271593 in app.json).
+// Dev builds (__DEV__) still use Google test ads. Empty = Google test ads.
 export const PROD_AD_UNITS = {
-  android: { banner: '', interstitial: '', rewarded: '' },
+  android: {
+    banner: 'ca-app-pub-2214888899948620/5157300701',
+    interstitial: 'ca-app-pub-2214888899948620/7316560185',
+    rewarded: 'ca-app-pub-2214888899948620/8455391191',
+  },
   ios: { banner: '', interstitial: '', rewarded: '' },
 };
 

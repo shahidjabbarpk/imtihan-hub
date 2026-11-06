@@ -27,7 +27,7 @@ export async function exportPaper(title: string, qs: Mcq[], minutes: number): Pr
         font-size: 72px; font-weight: 800; letter-spacing: 6px; color: rgba(29,78,216,0.06); z-index: 0; }
   .foot { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 10px; color: #8A94A6; }
   .content { position: relative; z-index: 1; }
-  </style></head><body><div class="wm">Imtihan Hub</div><div class="foot">Imtihan Hub – MCQs, Mock Tests, Results &amp; Past Papers</div><div class="content">
+  </style></head><body><div class="wm">Exam Tayari</div><div class="foot">Exam Tayari – MCQs, Mock Tests, Results &amp; Past Papers</div><div class="content">
   <h1>${esc(title)}</h1>
   <div class="meta">${qs.length} MCQs &nbsp;•&nbsp; ${minutes} minutes &nbsp;•&nbsp; Practice paper (not an official past paper)</div>
   <div class="name">Name: ______________________ &nbsp;&nbsp; Date: __________ &nbsp;&nbsp; Score: ____ / ${qs.length}</div>

@@ -34,7 +34,7 @@ export default function Settings() {
   const setReminder = async (on: boolean, hour = st.reminder.hour) => {
     const ok = await setDailyReminder(on, hour, 0);
     useApp.getState().set({ reminder: { on: on && ok, hour, minute: 0 } });
-    if (on && !ok && Platform.OS !== 'web') Alert.alert('Notifications are off', 'Allow notifications for Imtihan Hub in your phone settings.');
+    if (on && !ok && Platform.OS !== 'web') Alert.alert('Notifications are off', 'Allow notifications for Exam Tayari in your phone settings.');
   };
 
   const reset = () => {

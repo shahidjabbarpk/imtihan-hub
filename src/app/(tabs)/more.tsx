@@ -44,7 +44,7 @@ export default function More() {
         <Row icon="share-variant-outline" colors={['#047857', '#34D399']} title="Share with friends" sub="WhatsApp, Facebook, any app" onPress={() => shareApp()} />
         <Row icon="shield-lock-outline" colors={['#374151', '#9CA3AF']} title="Privacy Policy" onPress={() => openOfficial(PRIVACY_URL, false)} />
         <Text style={{ color: c.faint, fontFamily: font.regular, fontSize: 11.5, textAlign: 'center', marginTop: 14, lineHeight: 18 }}>
-          Imtihan Hub is an independent study app. It is not affiliated with any board, commission, university or government body.
+          Exam Tayari is an independent study app. It is not affiliated with any board, commission, university or government body.
           Results, roll number slips and notices always open the official website.
         </Text>
       </ScrollView>

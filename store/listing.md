@@ -1,10 +1,10 @@
-# Imtihan Hub – Play Store listing
+# Exam Tayari – Play Store listing
 
-**App name (30):** Imtihan Hub: MCQs & Results
+**App name (30):** Exam Tayari: MCQs & Results
 **Short description (80):** Matric, Inter, MDCAT, ECAT, NTS, CSS MCQs, mock tests, results & roll no slips
 
 **Full description:**
-Imtihan Hub is one study app for every Pakistani student – from Matric and Inter (FSc / ICS) to entry tests and government job tests.
+Exam Tayari is one study app for every Pakistani student – from Matric and Inter (FSc / ICS) to entry tests and government job tests.
 
 📚 1,200+ original MCQs with explanations
 • Biology, Chemistry, Physics, Mathematics, English, Computer Science
@@ -34,7 +34,7 @@ Imtihan Hub is one study app for every Pakistani student – from Matric and Int
 
 🔥 Daily Quiz, streaks, My Mistakes, Saved MCQs, progress by subject, dark mode.
 
-Imtihan Hub is an independent app and is not affiliated with any board, commission, university or government. Results and notices always open the official website.
+Exam Tayari is an independent app and is not affiliated with any board, commission, university or government. Results and notices always open the official website.
 
 **Category:** Education  •  **Contains ads:** Yes  •  **Target age:** 13+
 **Privacy policy:** https://shahidjabbarpk.github.io/imtihan-hub/privacy.html

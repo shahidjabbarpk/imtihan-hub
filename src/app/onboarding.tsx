@@ -40,7 +40,7 @@ export default function Onboarding() {
     <KeyboardAvoidingView style={{ flex: 1, backgroundColor: c.bg }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <LinearGradient colors={[c.heroA, c.heroB]} style={{ paddingTop: insets.top + 30, paddingBottom: 30, paddingHorizontal: 22, borderBottomLeftRadius: 28, borderBottomRightRadius: 28 }}>
         <Icon name="school" size={44} color="#fff" />
-        <Text style={{ color: '#fff', fontFamily: font.bold, fontSize: 28, marginTop: 8 }}>Imtihan Hub</Text>
+        <Text style={{ color: '#fff', fontFamily: font.bold, fontSize: 28, marginTop: 8 }}>Exam Tayari</Text>
         <Text style={{ color: 'rgba(255,255,255,0.85)', fontFamily: font.regular, fontSize: 13.5 }}>
           MCQs, mock tests, results, roll no slips, past papers, merit calculators & scholarships – one app for every Pakistani student.
         </Text>

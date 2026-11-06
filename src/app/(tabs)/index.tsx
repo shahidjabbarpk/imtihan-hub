@@ -56,7 +56,7 @@ export default function Home() {
         <View style={s.topRow}>
           <View style={{ flex: 1 }}>
             <Text style={s.hello}>{greeting(L)}{name ? `, ${name}` : ''} 👋</Text>
-            <Text style={s.title}>Imtihan Hub</Text>
+            <Text style={s.title}>Exam Tayari</Text>
           </View>
           <View style={s.streak}>
             <Text style={{ fontSize: 18 }}>🔥</Text>

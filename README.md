@@ -1,4 +1,4 @@
-# Imtihan Hub
+# Exam Tayari
 
 Pakistan exam-prep app (Expo 57 / React Native 0.86, expo-router). Package `com.imtihanhub.mza`.
 
