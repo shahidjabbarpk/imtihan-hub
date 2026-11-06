@@ -38,3 +38,20 @@ Exam Tayari is an independent app and is not affiliated with any board, commissi
 
 **Category:** Education  •  **Contains ads:** Yes  •  **Target age:** 13+
 **Privacy policy:** https://shahidjabbarpk.github.io/imtihan-hub/privacy.html
+
+## Play Console answers (copy from here)
+
+**Graphics:** icon `store/icon-512.png` • feature graphic `store/feature-graphic-1024x500.png` • phone screenshots `store/screenshots/02…10` (1080×2160)
+
+**App access:** All functionality is available without special access (no login).
+**Ads:** Yes, the app contains ads (Google AdMob).
+**Content rating:** Education/reference app – no violence, no user-to-user chat, no gambling. Leaderboard shows only a display name the student types.
+**Target audience:** 13–15, 16–17, 18+ (do NOT tick under-13, otherwise the Families policy applies to the ads).
+**Advertising ID:** Yes – used by the AdMob SDK for advertising.
+**Government app:** No. (The app is independent and says so in the app and description.)
+
+**Data safety:**
+- Data collected: *Device or other IDs* (advertising ID – by AdMob, for advertising/analytics); *App activity → other actions* (weekly leaderboard points, only if the student joins); *Personal info → name* (display name on leaderboard, optional, user-provided).
+- Shared with third parties: advertising ID with Google AdMob (advertising).
+- Encrypted in transit: Yes. • Users can request deletion: Yes (leaving the leaderboard deletes the score; uninstalling clears local data).
+- Collection required? Advertising ID: required for ads. Name/points: optional.
