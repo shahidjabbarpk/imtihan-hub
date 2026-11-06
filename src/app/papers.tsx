@@ -59,7 +59,7 @@ export default function Papers() {
           sub={[p.exam, p.board, p.cls, p.subject, p.year].filter(Boolean).join(' • ') + (p.mcqs?.length ? L(` • ${p.mcqs.length} MCQs, solve online`, ` • ${p.mcqs.length} سوال، آن لائن حل کریں`) : L(' • PDF', ' • پی ڈی ایف'))}
           onPress={() => open(p)} />
       )) : (
-        <Empty icon="file-document-multiple-outline" title={L('Archive is being filled', 'آرکائیو تیار ہو رہا ہے')}
+        <Empty icon="file-document-multiple-outline" title={L('Archive is being filled', 'آرکائیو بن رہا ہے')}
           hint={L('New past papers are added online and appear here automatically – keep internet on once in a while.',
             'نئے پرانے پرچے آن لائن شامل ہوتے ہیں اور یہاں خود بخود آ جاتے ہیں – کبھی کبھار انٹرنیٹ آن رکھیں۔')} />
       )}

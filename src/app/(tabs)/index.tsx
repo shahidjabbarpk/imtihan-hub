@@ -108,7 +108,7 @@ export default function Home() {
           <Row icon="school" title={board.name} sub={L('Result • Roll No Slip • Date Sheet • Past Papers', 'رزلٹ • رول نمبر سلپ • ڈیٹ شیٹ • پرانے پرچے')} onPress={() => router.push(`/board/${board.id}`)} />
         )}
 
-        <SectionTitle title={L('Prepare', 'تیاری')} />
+        <SectionTitle title={L('Prepare', 'پڑھائی')} />
         <Grid>
           <Tile icon="numeric-10-box-outline" colors={['#047857', '#34D399']} title="Matric (9th–10th)" ur="میٹرک" onPress={() => router.push({ pathname: '/(tabs)/study', params: { level: 'matric' } })} />
           <Tile icon="school-outline" colors={['#1D4ED8', '#60A5FA']} title="Inter (FSc / ICS)" ur="انٹر" onPress={() => router.push({ pathname: '/(tabs)/study', params: { level: 'inter' } })} />

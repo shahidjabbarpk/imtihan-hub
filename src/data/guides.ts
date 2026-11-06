@@ -63,7 +63,7 @@ export const GUIDES: Guide[] = [
     ],
   },
   {
-    id: 'examday', title: 'Exam Day Checklist & Study Tips', ur: 'امتحان کی تیاری اور ٹپس', icon: 'checkbox-marked-circle-outline', colors: ['#047857', '#34D399'],
+    id: 'examday', title: 'Exam Day Checklist & Study Tips', ur: 'امتحان کے دن کی ٹپس', icon: 'checkbox-marked-circle-outline', colors: ['#047857', '#34D399'],
     sections: [
       { h: 'Take with you', items: ['Roll number slip (and a photocopy)', 'Original CNIC / B-form (entry tests and job tests)', 'Blue/black pens, pencil, eraser, sharpener, scale', 'Simple calculator only if allowed', 'Water and a light snack', 'Reach the centre 45–60 minutes early'] },
       { h: 'Never take', items: ['Mobile phone or smart watch (strictly banned in most tests)', 'Notes, chits or any written paper', 'Bluetooth / electronic devices'] },

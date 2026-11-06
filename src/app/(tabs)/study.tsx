@@ -34,7 +34,7 @@ export default function Study() {
 
   return (
     <View style={{ flex: 1, backgroundColor: c.bg }}>
-      <TabHeader title="Study" ur="تیاری" sub="Subject-wise & topic-wise MCQs with explanations" />
+      <TabHeader title="Study" ur="پڑھائی" sub="Subject-wise & topic-wise MCQs with explanations" />
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: space }}>
         <Chips>{LEVELS.map((l) => <Chip key={l.key} label={l.label} active={level === l.key} onPress={() => setLevel(l.key)} />)}</Chips>
 
