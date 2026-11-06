@@ -2,7 +2,8 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, TextInput, View } from 'react-native';
 import { TabHeader } from '@/components/TabHeader';
-import { Chip, Chips, Icon, Row, SectionTitle, useTabBarSpace } from '@/components/ui';
+import { Select } from '@/components/Select';
+import { Icon, Row, SectionTitle, useTabBarSpace } from '@/components/ui';
 import { BOARDS, IBCC, REGIONS } from '@/data/boards';
 import { openOfficial } from '@/lib/links';
 import { useApp } from '@/lib/store';
@@ -34,7 +35,8 @@ export default function Boards() {
             <Row icon="star" colors={['#B45309', '#F59E0B']} title={my.name} sub={my.full} onPress={() => router.push(`/board/${my.id}`)} />
           </>
         )}
-        <Chips>{['All', ...REGIONS].map((r) => <Chip key={r} label={r} active={region === r} onPress={() => setRegion(r)} />)}</Chips>
+        <Select value={region} onChange={(v) => setRegion(v ?? 'All')} icon="map-marker-outline" title="Province / region"
+          options={[{ value: 'All', label: 'All provinces' }, ...REGIONS.map((r) => ({ value: r, label: r, sub: `${BOARDS.filter((b) => b.region === r).length} boards` }))]} />
         <SectionTitle title={`${list.length} boards`} />
         {list.map((b) => <Row key={b.id} icon="school" title={b.name} sub={`${b.region} • ${b.levels.map((l) => (l === 'matric' ? 'Matric' : 'Inter')).join(' & ')}`} onPress={() => router.push(`/board/${b.id}`)} />)}
         <SectionTitle title="Also useful" />

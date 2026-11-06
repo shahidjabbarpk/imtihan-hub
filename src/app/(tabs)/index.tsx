@@ -173,7 +173,7 @@ const s = StyleSheet.create({
   dailyIcon: { width: 50, height: 50, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   dailyTitle: { fontFamily: font.bold, fontSize: 16 },
   dailySub: { fontFamily: font.regular, fontSize: 12 },
-  urTitle: { fontFamily: font.urduBold, lineHeight: 34 },
+  urTitle: { fontFamily: font.urduBold, lineHeight: 40, paddingTop: 4 },
   cdName: { fontFamily: font.semi, fontSize: 14.5 },
   cdDays: { fontFamily: font.bold, fontSize: 16 },
 });

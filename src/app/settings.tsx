@@ -1,10 +1,10 @@
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Alert, Platform, Switch, Text, View } from 'react-native';
 import { Btn, Card, Chip, Chips, Field, Note, Row, Screen, SectionTitle } from '@/components/ui';
-import { boardById } from '@/data/boards';
-import { testByKey } from '@/data/tests';
+import { Select } from '@/components/Select';
+import { boardById, boardOptions } from '@/data/boards';
+import { TESTS, testByKey } from '@/data/tests';
 import { refreshContent } from '@/lib/content';
 import { useL } from '@/lib/i18n';
 import { syncPoints } from '@/lib/leaderboard';
@@ -52,8 +52,13 @@ export default function Settings() {
           <Chip key={k} label={l} active={st.level === k} onPress={() => useApp.getState().set({ level: k })} />
         ))}
       </Chips>
-      <Row icon="flag-outline" title="Goal test" sub={goal ? goal.name : 'Not set – pick from the Tests tab'} onPress={() => router.push('/(tabs)/tests')} />
-      <Row icon="school" title="My board" sub={board ? board.name : 'Not set – pick from the Results tab'} onPress={() => router.push('/(tabs)/boards')} />
+      <Select value={st.goal} onChange={(v) => useApp.getState().set({ goal: v })} title="Goal test" clearLabel="No goal test"
+        searchPlaceholder="Search test (e.g. MDCAT, PPSC)"
+        options={TESTS.map((t) => ({ value: t.key, label: t.name, sub: t.full !== t.name ? t.full : undefined, group: t.group }))}
+        trigger={(open) => <Row icon="flag-outline" title="Goal test" sub={goal ? goal.name : 'Not set – tap to choose'} onPress={open} />} />
+      <Select value={st.boardId} options={boardOptions(st.level)} onChange={(v) => useApp.getState().set({ boardId: v })}
+        title="Select your board" searchPlaceholder="Search board or city (e.g. Lahore)" clearLabel="No board"
+        trigger={(open) => <Row icon="school" title="My board" sub={board ? board.name : 'Not set – tap to choose'} onPress={open} />} />
 
       <SectionTitle title="Language / زبان" />
       <Chips>

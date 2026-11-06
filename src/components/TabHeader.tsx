@@ -28,8 +28,8 @@ const s = StyleSheet.create({
   hero: { paddingHorizontal: 18, paddingBottom: 16, borderBottomLeftRadius: 24, borderBottomRightRadius: 24 },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   title: { color: '#fff', fontFamily: font.bold, fontSize: 24 },
-  ur: { color: 'rgba(255,255,255,0.85)', fontFamily: font.urdu, fontSize: 15, lineHeight: 34 },
-  urBig: { color: '#fff', fontFamily: font.urduBold, fontSize: 22, lineHeight: 46 },
+  ur: { color: 'rgba(255,255,255,0.85)', fontFamily: font.urdu, fontSize: 15, lineHeight: 38, paddingTop: 4 },
+  urBig: { color: '#fff', fontFamily: font.urduBold, fontSize: 22, lineHeight: 54, paddingTop: 6 },
   small: { color: 'rgba(255,255,255,0.85)', fontFamily: font.semi, fontSize: 15 },
   sub: { color: 'rgba(255,255,255,0.8)', fontFamily: font.regular, fontSize: 12.5, marginTop: 2 },
 });

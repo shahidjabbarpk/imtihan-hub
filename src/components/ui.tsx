@@ -63,7 +63,9 @@ const isUrdu = (s: string) => /[؀-ۿ]/.test(s);
 /** Style patch that switches a text to the Nastaliq font when it is Urdu. */
 export function ur(text: string | undefined, bold = false, size?: number) {
   if (!text || !isUrdu(text)) return null;
-  return { fontFamily: bold ? font.urduBold : font.urdu, lineHeight: Math.round((size ?? 15) * 2), writingDirection: 'rtl' as const };
+  const z = size ?? 15;
+  // Nastaliq dots sit far above the baseline; Android clips them unless the line box is tall enough.
+  return { fontFamily: bold ? font.urduBold : font.urdu, lineHeight: Math.round(z * 2.4), paddingTop: Math.round(z * 0.2), writingDirection: 'rtl' as const };
 }
 const useUrduUi = () => useApp((st) => st.lang === 'ur');
 /** Text that switches to the Nastaliq font (and right alignment) when it is Urdu. */
@@ -71,7 +73,7 @@ export function T({ children, style, bold, numberOfLines }: { children: string; 
   const ur = isUrdu(children);
   return (
     <Text numberOfLines={numberOfLines}
-      style={[{ fontFamily: ur ? (bold ? font.urduBold : font.urdu) : bold ? font.semi : font.regular }, ur && { lineHeight: 34, writingDirection: 'rtl' }, style]}>
+      style={[{ fontFamily: ur ? (bold ? font.urduBold : font.urdu) : bold ? font.semi : font.regular }, ur && { lineHeight: 38, paddingTop: 3, writingDirection: 'rtl' }, style]}>
       {children}
     </Text>
   );
@@ -252,12 +254,12 @@ export const styles = StyleSheet.create({
   card: { borderRadius: 18, borderWidth: 1, padding: 14, marginBottom: 12, shadowOpacity: 0.05, shadowRadius: 10, shadowOffset: { width: 0, height: 3 }, elevation: 1 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderRadius: 16, borderWidth: 1, marginBottom: 10 },
   rowTitle: { fontFamily: font.semi, fontSize: 14.5 },
-  rowUr: { fontFamily: font.urdu, fontSize: 12, lineHeight: 26, textAlign: 'left' },
+  rowUr: { fontFamily: font.urdu, fontSize: 12, lineHeight: 29, paddingTop: 2, textAlign: 'left' },
   rowSub: { fontFamily: font.regular, fontSize: 12, marginTop: 1 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 },
   tile: { width: '31.5%', borderRadius: 18, borderWidth: 1, paddingVertical: 14, paddingHorizontal: 8, alignItems: 'center', gap: 6 },
   tileTitle: { fontFamily: font.semi, fontSize: 12, textAlign: 'center' },
-  tileUr: { fontFamily: font.urdu, fontSize: 10.5, lineHeight: 22, textAlign: 'center' },
+  tileUr: { fontFamily: font.urdu, fontSize: 10.5, lineHeight: 26, paddingTop: 2, textAlign: 'center' },
   tileBadge: { position: 'absolute', top: 8, right: 8, borderRadius: 8, paddingHorizontal: 6, paddingVertical: 1 },
   tileBadgeText: { color: '#1A1300', fontFamily: font.bold, fontSize: 9.5 },
   section: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 18, marginBottom: 10 },

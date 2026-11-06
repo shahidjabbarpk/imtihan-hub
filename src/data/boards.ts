@@ -50,6 +50,12 @@ export const REGIONS = ['Punjab', 'Federal', 'Khyber Pakhtunkhwa', 'Sindh', 'Bal
 
 export const boardById = (id: string) => BOARDS.find((b) => b.id === id);
 
+/** Dropdown options for the board picker, grouped by province (optionally only boards for one level). */
+export const boardOptions = (level?: string | null) =>
+  BOARDS.filter((b) => (level === 'matric' || level === 'inter' ? b.levels.includes(level) : true))
+    .sort((a, b) => REGIONS.indexOf(a.region) - REGIONS.indexOf(b.region))
+    .map((b) => ({ value: b.id, label: b.name, sub: b.full !== b.name ? b.full : undefined, group: b.region }));
+
 /** What a student comes to a board for. Each opens the official site (search fallback below it). */
 export const BOARD_ACTIONS = [
   { key: 'result', label: 'Result', ur: 'رزلٹ', icon: 'trophy-outline', q: 'result' },

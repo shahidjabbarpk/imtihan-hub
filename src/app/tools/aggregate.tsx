@@ -1,7 +1,8 @@
 import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
-import { Card, Chip, Chips, Field, Note, Screen, SectionTitle } from '@/components/ui';
+import { Select } from '@/components/Select';
+import { Card, Field, Note, Screen, SectionTitle } from '@/components/ui';
 import { font, useTheme } from '@/lib/theme';
 
 // Weights as publicly reported for recent sessions (matric / inter / test). Universities change
@@ -44,7 +45,8 @@ export default function Aggregate() {
 
   return (
     <Screen title="Merit / Aggregate Calculator" subtitle="Matric + Inter + entry test">
-      <Chips>{PRESETS.map((x) => <Chip key={x.key} label={x.label} active={key === x.key} onPress={() => choose(x.key)} />)}</Chips>
+      <Select value={key} onChange={(v) => v && choose(v)} icon="school-outline" title="University / entry test"
+        options={PRESETS.map((x) => ({ value: x.key, label: x.label, sub: `Matric ${x.w[0]}% • Inter ${x.w[1]}% • Test ${x.w[2]}%` }))} />
 
       <SectionTitle title="Your marks" />
       <Row2>

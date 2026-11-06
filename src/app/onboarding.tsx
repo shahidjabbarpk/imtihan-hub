@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Btn, Chip, Icon, Tap, useStatusBar } from '@/components/ui';
-import { BOARDS } from '@/data/boards';
+import { Select } from '@/components/Select';
+import { boardOptions } from '@/data/boards';
+import { testByKey } from '@/data/tests';
 import { useApp } from '@/lib/store';
 import { font, useTheme } from '@/lib/theme';
 
@@ -78,9 +80,9 @@ export default function Onboarding() {
         {step === 1 && (
           <>
             <Text style={{ color: c.text, fontFamily: font.bold, fontSize: 18, marginBottom: 10 }}>Main goal kya hai?</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-              {GOALS[level]!.map(([k, l]) => <Chip key={l} label={l} active={goal === k} onPress={() => setGoal(k)} />)}
-            </View>
+            <Select value={goal || null} onChange={(v) => setGoal(v ?? '')} icon="flag-outline"
+              placeholder="Select your main exam" title="Main goal kya hai?" clearLabel="Board exams only"
+              options={GOALS[level]!.filter(([k]) => k).map(([k, l]) => ({ value: k, label: l, sub: testByKey(k)?.full }))} />
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 24 }}>
               <Btn label="Back" kind="soft" onPress={() => setStep(0)} style={{ flex: 1 }} />
               <Btn label={level === 'graduate' ? 'Start' : 'Next'} icon="arrow-right" onPress={() => (level === 'graduate' ? done() : setStep(2))} style={{ flex: 2 }} />
@@ -91,9 +93,9 @@ export default function Onboarding() {
           <>
             <Text style={{ color: c.text, fontFamily: font.bold, fontSize: 18, marginBottom: 4 }}>Aap ka board?</Text>
             <Text style={{ color: c.sub, fontFamily: font.regular, fontSize: 12.5, marginBottom: 12 }}>Results, roll no slip and date sheet will be one tap away on Home.</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-              {BOARDS.map((b) => <Chip key={b.id} label={b.name} active={board === b.id} onPress={() => setBoard(board === b.id ? null : b.id)} />)}
-            </View>
+            <Select value={board} options={boardOptions(level)} onChange={setBoard} icon="school-outline"
+              placeholder="Select your board" title="Select your board" searchPlaceholder="Search board or city (e.g. Lahore)"
+              clearLabel="Not now – I'll choose later" />
             <View style={{ flexDirection: 'row', gap: 10, marginTop: 24 }}>
               <Btn label="Back" kind="soft" onPress={() => setStep(1)} style={{ flex: 1 }} />
               <Btn label="Start" icon="check" onPress={done} style={{ flex: 2 }} />
