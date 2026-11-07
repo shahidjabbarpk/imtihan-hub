@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-06T21:04:49.702Z",
+ "updatedAt": "2026-11-07T01:26:34.734Z",
  "items": [
   {
    "id": "b2b2abfb01cf",
@@ -14,6 +14,14 @@
    "title": "BISE Rawalpindi 12th Class Result 2026 Announced",
    "body": "Source: TechJuice",
    "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE0xWm5FNjd6cGRRZWF4MFZ2VlJzcjlGUElLRHRlQlBOYU51dzFnSnY3eExIUGpDWXVuVnFSeWFfbVoxeXpfUDVydlU3M0xzM2JHYnhuU3F1eWVMdWhza3hES2pXcEUxS25LUkJ1UTNyYU90NFNQSW5laG5TRFZpazA?oc=5",
+   "date": "2026-11-06",
+   "tag": "Result"
+  },
+  {
+   "id": "fc3372ed6338",
+   "title": "BISE Lahore 12th Class Result 2026 Announced",
+   "body": "Source: TechJuice",
+   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1iZVhvVm9KU1h4bUdIbDFhUHp1YkVZWXN5YzVoZURqSHFBeU9ncVVORE5HMTBvODlyLU9Yb25pa1M3SjBKaDQ2S29GaVZaVVo4RlpSRVdUcWhKRkNBU0VMMGdtLWl5WFlRUkxaaUR0RmI0UHVUTEtOQ3FR?oc=5",
    "date": "2026-11-06",
    "tag": "Result"
   },
@@ -42,6 +50,22 @@
    "tag": "Result"
   },
   {
+   "id": "d203da481eaa",
+   "title": "Gujranwala Board 12th Class Result 2026 Released",
+   "body": "Source: TechJuice",
+   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9rUmtISW5WRHlSSHF1bkZVbldjVl9iTmw3c2VWQkZ1NHY0MHhvR3YzSkIzVVhsWjhEUUdvR1M5eUkxdW5hR0s3d3ZNX0ZjR2RCYm5taS1QbGtjN1JueVc2d29DemVVNjFCUW81RGQyV2lUMHVWbTRQZ2VKWFRKZTg?oc=5",
+   "date": "2026-11-06",
+   "tag": "Result"
+  },
+  {
+   "id": "704e2cbf1672",
+   "title": "Bahawalpur Board 12th Class Result 2026 Released",
+   "body": "Source: TechJuice",
+   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBZYWNzQXFlNjNZM2c3X3dkYkZKanM2MkFqNFFOam1KaFhUQ21zdVpwa0ZxOUZ0LVpoNUkwRkJRRkxmV2xtVXd6QkJUSXFjcjllS2liS2JSRVhMVUJWSTI2eGRUQ3dwMVVYQ1FiSHRtbkNiTGVHUjkzNm5FSEVXekU?oc=5",
+   "date": "2026-11-06",
+   "tag": "Result"
+  },
+  {
    "id": "fdd4047ede44",
    "title": "HEC Announces New MBBS and BDS Admission Procedure",
    "body": "Source: ProPakistani",
@@ -58,10 +82,10 @@
    "tag": "MDCAT"
   },
   {
-   "id": "e4f87941e935",
+   "id": "38e912039c6b",
    "title": "Punjab to Issue Smart Syllabus for Classes 9–12",
    "body": "Source: ProPakistani",
-   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPZUltR2w2LUM4c0o1a215cnBwU1IyWEE0NzBpNTlpTkZOaGxDV1IyS3d5MVdZNXBwRU04TER3cGx3TF8xZGZtVVhlbVV0OFJnSWMxMEFSaEVicnBlOW9YOXZNY3RhcGQ1SXhXdlhhOXBIZUhzNGQ3UERoT0toSUFLc3JEQmVkd2E5ZklJ0gGvAUFVX3lxTE5pQldWLVNKSFQ3U1ZpNmZ3ZVl1czQ3OWdKQXBpVjNSeFFZMU1WbzhnSkl0OUpBNTVjZlJiLVRvd0dQN1pHNkpFS3h6ZzM5cElhczRCQzVHLUkyNzVqZkg4ZVdmQ09IVVVxNEg1dzRuY0trYy1sMDc5Q1U2WDdBQ0VpS0xGa3B3SkZ0T0tRLVZQUzVmbXZFLWlMRnRUcGNRdkh2eG1QWS1kTmduSmRsbkk?oc=5",
+   "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPZUltR2w2LUM4c0o1a215cnBwU1IyWEE0NzBpNTlpTkZOaGxDV1IyS3d5MVdZNXBwRU04TER3cGx3TF8xZGZtVVhlbVV0OFJnSWMxMEFSaEVicnBlOW9YOXZNY3RhcGQ1SXhXdlhhOXBIZUhzNGQ3UERoT0toSUFLc3JEQmVkd2E5ZklJ0gGQAUFVX3lxTFBLRmk0Q2hrakNTamtvcDNnMTFiY28zSXRSOFZ6eV9vaXBmd09kQzJGQlFRMzI2NHNtOWhmTnlTMzQ0ZDU0am5rYkR2Y3JBYzhrNDQzTzg1Q2FON3JUb043WXJ2c0NJZlI0Y1pIdm52NnZFeWlsUUlJeWpwNTJwYlduMDhNd01GZ1dURHljWERudg?oc=5",
    "date": "2026-11-06",
    "tag": "Syllabus"
   },
@@ -72,14 +96,6 @@
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBxRWp2ejV1YjRlbENzN1ZnSFdMU2ZtTWJxZXpKbWdGbHFiaFJESUVnd0JOeG1MTDU2WVlSTjlfcjR1bHJjMk1rQ2p2T3NlS3RfVTNtM3M2RFduOTlTb1ZTbUx0Ry01dl9oOEFLejFn?oc=5",
    "date": "2026-11-06",
    "tag": "Syllabus"
-  },
-  {
-   "id": "90d986143175",
-   "title": "BISE Lahore 12th Class Result Gazette 2026 Officially Released",
-   "body": "Source: TechJuice",
-   "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOVFowbWlEaTFRS00xQko5VW5qYi1qUVhMYmJ2QTVZYi1GV2E4eWRWaHJPZVgzX0JvTHlaU2l5TGxNRW94TWpmTk1IM2dWOURJekZJQjJQdldaQ3pxcTRTdWU5TmZFbFFvVXhpQUZ4S3doeXdzLTJwdmZOcWpzeHJoYlEyOGpzbkI4NFA5R3hIRWZUdw?oc=5",
-   "date": "2026-11-05",
-   "tag": "Result"
   },
   {
    "id": "7848323cd8a2",
@@ -122,6 +138,14 @@
    "tag": "Admission"
   },
   {
+   "id": "f28ec3dbc759",
+   "title": "HEC Overseas Scholarships 2026 for Top 200 Universities",
+   "body": "Source: TechJuice",
+   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNeFlHX1VHQkd5Yk9FOC04UkVRdHl3c0d2dXpaSnRwV3A2bVVIbDBEVjYtMjJkbzJoU1RVZUhScnVTX00wUk00STJRWkw0NXRUbTRBajl5LWFQWVhxbzBuOHprY1JPUjBLYnJNeDQ3ZWppM3YxalhJTkhWRWdDQUFmY3Q3Vl9OT2w0?oc=5",
+   "date": "2026-11-05",
+   "tag": "Scholarship"
+  },
+  {
    "id": "d92b15238fc0",
    "title": "Pakistan launches professional boxing board",
    "body": "Source: The Express Tribune",
@@ -130,18 +154,18 @@
    "tag": "Date Sheet"
   },
   {
+   "id": "90d986143175",
+   "title": "BISE Lahore 12th Class Result Gazette 2026 Officially Released",
+   "body": "Source: TechJuice",
+   "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOVFowbWlEaTFRS00xQko5VW5qYi1qUVhMYmJ2QTVZYi1GV2E4eWRWaHJPZVgzX0JvTHlaU2l5TGxNRW94TWpmTk1IM2dWOURJekZJQjJQdldaQ3pxcTRTdWU5TmZFbFFvVXhpQUZ4S3doeXdzLTJwdmZOcWpzeHJoYlEyOGpzbkI4NFA5R3hIRWZUdw?oc=5",
+   "date": "2026-11-05",
+   "tag": "Result"
+  },
+  {
    "id": "a57c9991cd32",
    "title": "BISE DG Khan 9th Class Result 2026 Date Officially Announced",
    "body": "Source: TechJuice",
    "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQS1BLWE5HcjFMU2l4UjJsTXduVVRfN2NxdEJRV29KdXFSRXQ4UlIzSGsyNnl6ZzRxMEJtTEdoWjZUYlFuTGpPSVNtVWhyWjZVXzBveC13Y1BEQ3pRQi03c19idC1jZDF2QS1mSXVFNXk0bUR6RXBKeUN1ckwtZGRMdl9iOTJLb0paVW5BN2FXbw?oc=5",
-   "date": "2026-11-04",
-   "tag": "Result"
-  },
-  {
-   "id": "fc3372ed6338",
-   "title": "BISE Lahore 12th Class Result 2026 Announced",
-   "body": "Source: TechJuice",
-   "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1iZVhvVm9KU1h4bUdIbDFhUHp1YkVZWXN5YzVoZURqSHFBeU9ncVVORE5HMTBvODlyLU9Yb25pa1M3SjBKaDQ2S29GaVZaVVo4RlpSRVdUcWhKRkNBU0VMMGdtLWl5WFlRUkxaaUR0RmI0UHVUTEtOQ3FR?oc=5",
    "date": "2026-11-04",
    "tag": "Result"
   },
@@ -198,22 +222,6 @@
    "title": "BISE Kohat 11th & 12th Class Results 2026 Officially Released",
    "body": "Source: TechJuice",
    "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQbGNZQ0c1NFhfWFZKLWpObGJlSGxPRWVZbHhLWGpQOUJRX0lYRXA3ZkpBSHkzQ0Nsc056blVyc3NRUThPZVFiREp3X2Y0ek16WXJZRjF6Nk5jbUctM2hsR1pIbzJYUkpwQW96bXA5RUkyR2NDRVFjMUVBQ1dLUlc3OVp1RFZYRTVwUTRiU2Fn?oc=5",
-   "date": "2026-11-04",
-   "tag": "Result"
-  },
-  {
-   "id": "d203da481eaa",
-   "title": "Gujranwala Board 12th Class Result 2026 Released",
-   "body": "Source: TechJuice",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9rUmtISW5WRHlSSHF1bkZVbldjVl9iTmw3c2VWQkZ1NHY0MHhvR3YzSkIzVVhsWjhEUUdvR1M5eUkxdW5hR0s3d3ZNX0ZjR2RCYm5taS1QbGtjN1JueVc2d29DemVVNjFCUW81RGQyV2lUMHVWbTRQZ2VKWFRKZTg?oc=5",
-   "date": "2026-11-04",
-   "tag": "Result"
-  },
-  {
-   "id": "704e2cbf1672",
-   "title": "Bahawalpur Board 12th Class Result 2026 Released",
-   "body": "Source: TechJuice",
-   "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBZYWNzQXFlNjNZM2c3X3dkYkZKanM2MkFqNFFOam1KaFhUQ21zdVpwa0ZxOUZ0LVpoNUkwRkJRRkxmV2xtVXd6QkJUSXFjcjllS2liS2JSRVhMVUJWSTI2eGRUQ3dwMVVYQ1FiSHRtbkNiTGVHUjkzNm5FSEVXekU?oc=5",
    "date": "2026-11-04",
    "tag": "Result"
   },
@@ -282,14 +290,6 @@
    "tag": "Roll No Slip"
   },
   {
-   "id": "f28ec3dbc759",
-   "title": "HEC Overseas Scholarships 2026 for Top 200 Universities",
-   "body": "Source: TechJuice",
-   "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNeFlHX1VHQkd5Yk9FOC04UkVRdHl3c0d2dXpaSnRwV3A2bVVIbDBEVjYtMjJkbzJoU1RVZUhScnVTX00wUk00STJRWkw0NXRUbTRBajl5LWFQWVhxbzBuOHprY1JPUjBLYnJNeDQ3ZWppM3YxalhJTkhWRWdDQUFmY3Q3Vl9OT2w0?oc=5",
-   "date": "2026-11-03",
-   "tag": "Scholarship"
-  },
-  {
    "id": "b4f03b1327eb",
    "title": "HEC reports significant growth in global ranking of Pakistani universities to NA Committee",
    "body": "Source: Daily Lead Pakistan",
@@ -346,6 +346,14 @@
    "tag": "Result"
   },
   {
+   "id": "743f9e7d5c52",
+   "title": "Karachi board announces Class 9 Science results: how to check yours",
+   "body": "Source: Aaj English TV",
+   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOTk5YamN4RGJEQ0NmbUlWZlVRLXlIOUs1bWk5dWMxMTJMWUlDRlJMdzV5Unp1RmJiUXFBLTkxZ0ZIU0xVUWxLV3lyNVlMeVpvdXJjR3JfWXpKRGFSSmFYVUU0TjdMTTM0dF9DZ0xna3ZSTjBXLWY2Z2ZNMUp4b0I4S0VmcTQwN2cyVVhQdERBV25uWTQxZmlnVzVrZ0VoenRsZ3FqY3JORQ?oc=5",
+   "date": "2026-10-30",
+   "tag": "Result"
+  },
+  {
    "id": "43fb81c3981e",
    "title": "Ziauddin University Announces Admissions for Medical Training Programs",
    "body": "Source: ProPakistani",
@@ -386,14 +394,6 @@
    "tag": "Scholarship"
   },
   {
-   "id": "743f9e7d5c52",
-   "title": "Karachi board announces Class 9 Science results: how to check yours",
-   "body": "Source: Aaj English TV",
-   "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOTk5YamN4RGJEQ0NmbUlWZlVRLXlIOUs1bWk5dWMxMTJMWUlDRlJMdzV5Unp1RmJiUXFBLTkxZ0ZIU0xVUWxLV3lyNVlMeVpvdXJjR3JfWXpKRGFSSmFYVUU0TjdMTTM0dF9DZ0xna3ZSTjBXLWY2Z2ZNMUp4b0I4S0VmcTQwN2cyVVhQdERBV25uWTQxZmlnVzVrZ0VoenRsZ3FqY3JORQ?oc=5",
-   "date": "2026-10-28",
-   "tag": "Result"
-  },
-  {
    "id": "2c7c3bcc70ec",
    "title": "Sindh Govt Rejects MDCAT 2026 Controversy",
    "body": "Source: ProPakistani",
@@ -414,6 +414,14 @@
    "title": "Inter part-I results out as Karachi Board rolls out new grading system",
    "body": "Source: The Express Tribune",
    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQelY3S0VOUW5vZ0g4c1M3bXRBMmtkN1VNdldJd2JSQmZSU3RZTUFpWks4Vk1Rb1dkUnhEQUNxRXFpZ0lqMGIteW1RUnJaYWRZc1FpUHVmNXZSendaSHJNWURNR1QtYjVYZGRkUXFZSng2b2t6SXc2WUM5cmtncC1MMDk4WnhTd0FJdmwyQ3BWU3liS1l0RC00dE0zUWdDcHJrWDZtTXF5VVRHTWvSAbMBQVVfeXFMTnlidDIyaVU4U0FmNFFIOXc1dl9OYTFTbU1iNVh3YXhhNVJZbkxoMmVMV1pkWlhhQ3pIdE05NHZqY1lwUUc4OTdYTHZUcnNxWUloV2pPTERpWWpDTC1LY3hMNTYxQjNaYlFBZVdMWDA4ekR6Mk1DMWxhR3BLcjJ4bHlnTFpZNVd6cnU1MVlXU1BiWnlHWjBhVWJwTmZaTmtJVkkzTTJXME1XdzRELXZoQWpXMW8?oc=5",
+   "date": "2026-10-27",
+   "tag": "Result"
+  },
+  {
+   "id": "c44021e26cfa",
+   "title": "Karachi board declares first-year results under new grading system",
+   "body": "Source: Bol News",
+   "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOOHVjNDRRY2Z3bkN6TEg4d25BQUhMWkNyT0ZEWFlGd2UzM1U2VGs3RFN1emdyY0pvSXlkVzJETjNYQWdpTVdhMDQ1RTctV25HbHNvRnUteUx1NkNUVi1ZSXVVNHRmLTNYek9hQmZaUlBuWEllSFdTNWlxaWxVb1NqVUVjbnZDSEQ1ZnlReW9PSHFHYXFNVVhYZ0dxQkNmeVZM?oc=5",
    "date": "2026-10-27",
    "tag": "Result"
   },
@@ -450,18 +458,18 @@
    "tag": "Date Sheet"
   },
   {
-   "id": "f9fb88d589db",
-   "title": "Karachi Board intermediate supplementary exams to begin on October 28",
-   "body": "Source: Pakistan Connect",
-   "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE04QUQ4ZEt6TFhKRlRzNnNUX3hOQ0h1WjR3Z3lxMURDdkJCTC1DUkhmbGR3MVBKcE1SdXRZUmdVZ3NQOFdHQnRoZ1dDVTA2SFBESldsMGE2UXVRd0RTMnVUaURBbHNMYzFIYTREdElIRnFJbmRRLWl3NnhYcWk?oc=5",
-   "date": "2026-10-27",
-   "tag": "Date Sheet"
-  },
-  {
    "id": "49fc8e91d8db",
    "title": "Karachi intermediate supplementary exams begin Wednesday",
    "body": "Source: 24 News HD",
    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNQTBsaDNhVW1mLUQxVVVxVjFfMzd3c01tNEhIb0phY0U3T080anpPMzh0aVc3cFNndXpwUUY3SHZJYzZBUWgwdGlJV1U5djdwcnB6UndHVVMzRTBwUE14elJueFBkNV9Cd25KTjlZeEg2cV9laTVSSmpoR1RBSnd6NjhiRDFFYU9TZmFKSnpxUWpVamNaMDVZ?oc=5",
+   "date": "2026-10-27",
+   "tag": "Date Sheet"
+  },
+  {
+   "id": "f9fb88d589db",
+   "title": "Karachi Board intermediate supplementary exams to begin on October 28",
+   "body": "Source: Pakistan Connect",
+   "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE04QUQ4ZEt6TFhKRlRzNnNUX3hOQ0h1WjR3Z3lxMURDdkJCTC1DUkhmbGR3MVBKcE1SdXRZUmdVZ3NQOFdHQnRoZ1dDVTA2SFBESldsMGE2UXVRd0RTMnVUaURBbHNMYzFIYTREdElIRnFJbmRRLWl3NnhYcWk?oc=5",
    "date": "2026-10-27",
    "tag": "Date Sheet"
   },
@@ -512,6 +520,14 @@
    "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQem55eXlzQzJtaWJBQnRLLU5PQk84dG54ZGNGMmRUS21fc25ZRG9GejNCUGw3V3N2Y3JDZ0tMaU51Mnk0RFNTTHlaazh6Sk5waV9WM1JIdkI1MHRGWXJSQmxEY2dRR3VzZkptRDNMeTZWU0ZxZmZoY3VudjBTcFZaVFhFcl9GVzg2QmJSc184UEtyU2t6aEhDVlNSRXHSAVZBVV95cUxNdXdQUDdRWXp6V25KSWV5R2tHRU9keUFlM1ZBM3E5X29ZVGhpLXRKU0w2bU9US094Nzd4b0dab0JYTUpmZXRiQU5tajE4VHZfWkR5RG5Cdw?oc=5",
    "date": "2026-10-23",
    "tag": "Result"
+  },
+  {
+   "id": "1f18d0c73200",
+   "title": "BISE Lahore Announces Major Change to Matric, Inter Exams",
+   "body": "Source: ProPakistani",
+   "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNOFpGYm5NcklDOEVaYkZtR1YtN1MwWlk4VXZ0eGl5VUwzU3N4dlJpdVRJa25wT2hSb1A0VFU0b2I5MlFTZGN2OERRRVRfOHdyWGI1bEVZRGkxVDhfVDBwYXFKMzAwTWNtSFU5ekp0RUZtZTVSMUFJUUo3Y2E4dkhmUERWc2VuWTBiclduOEw3TTFRaDN3WUp30gGcAUFVX3lxTFBSSTdHRWdfcjRuNE8yOUJmMVVMb0oyQ3hPNmNPTm5KaVdpaWZIMlFpWVVnTEhPcUJuTXJXaGU3b1ZxNFRKcE1KcnhlOTBmVU1XeVJLclBNeEhwTUNZYlFnOWlfX1NNeGJyQ0l3aVdLVV9PLWtkSE5KOUhJZFhjRmJMT2dwUGIxeU1ZRlZ3b0lJNXRQVXFRXzYzNG9URw?oc=5",
+   "date": "2026-10-23",
+   "tag": "Date Sheet"
   },
   {
    "id": "bb231fe329ef",
@@ -578,18 +594,18 @@
    "tag": "Result"
   },
   {
-   "id": "109899b1f92a",
-   "title": "BISE Bahawalpur Board 11th Class Result 2026 Announced",
-   "body": "Source: ProPakistani",
-   "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcF80NjBEOUQtVjRuMlRfQnc0WFpaX3A3Z0NDdXpFMWJfOTRRdXVwOThidzNycUxEbUtNQllUdXg4emFTSkFRUEtmSmo5V2JKRWdiWmN2eWdaaTJlQXBrMi1mOF84MkRsS0p6YlcyX2lNVW02d3lSMlFCUjJiQW9mMHRKMnhwQWNYRTB0S0I0MVNiOUU10gGaAUFVX3lxTFBlOFdldWtNbGk5NktDNUNHUUVWTEk5YnFCcG5RUTB5TGJzQmdmYVdwNnBGRmFnTEtVT3ItTUYyaDVxODNBRjlkRTV2dllmcmwtNWpFeDhjYmg3V0swZnNDRjROZ3JzVFdrVVlZMS1jWVRZYVpzN2VLbmJnM0Q2XzZMZlJWRDlfYUc5ODlEbHlBclBGQ2FNbGUyU3c?oc=5",
-   "date": "2026-10-22",
-   "tag": "Result"
-  },
-  {
    "id": "d405b8055338",
    "title": "BISE Faisalabad Board 11th Class Result 2026 Announced",
    "body": "Source: ProPakistani",
    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOZ2hqNzFQUVhvVXhsZzJDSnd6dEVDOEVYd1RWakJMMUdCNm9GYnI0WXBsV1JhZGVsQzVKRmE5UjVnd05udldPY0c2S29tV24tNl85UDhERGxTN3ZqNFNLZjI0OFM2Ym5FYzk1ZTR4WnpEYkhJcGlMalBaSjByWmhrOUQ5bEp5NUU5dWlSMVhXbWVxTE5Z0gGaAUFVX3lxTE5lZFltYlppaFgxMWcwa3h5WTdPTlhMcGZpVEN5UjQ4ekhveHQ5cVdlc1ExMFBPQUpnNXN0ZUlzZElIcjFkYXNWbjdiUXRkYTZHR2E3QjhtN2xraTloUnZ1RkZsSXFUWmlYWHFEVjlJSXdUaTZ3X3pNTHk0NllGcTBXUG4zVGk2aEJyMkFkWVMzZW8tUEIzYnlTWWc?oc=5",
+   "date": "2026-10-22",
+   "tag": "Result"
+  },
+  {
+   "id": "109899b1f92a",
+   "title": "BISE Bahawalpur Board 11th Class Result 2026 Announced",
+   "body": "Source: ProPakistani",
+   "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNcF80NjBEOUQtVjRuMlRfQnc0WFpaX3A3Z0NDdXpFMWJfOTRRdXVwOThidzNycUxEbUtNQllUdXg4emFTSkFRUEtmSmo5V2JKRWdiWmN2eWdaaTJlQXBrMi1mOF84MkRsS0p6YlcyX2lNVW02d3lSMlFCUjJiQW9mMHRKMnhwQWNYRTB0S0I0MVNiOUU10gGaAUFVX3lxTFBlOFdldWtNbGk5NktDNUNHUUVWTEk5YnFCcG5RUTB5TGJzQmdmYVdwNnBGRmFnTEtVT3ItTUYyaDVxODNBRjlkRTV2dllmcmwtNWpFeDhjYmg3V0swZnNDRjROZ3JzVFdrVVlZMS1jWVRZYVpzN2VLbmJnM0Q2XzZMZlJWRDlfYUc5ODlEbHlBclBGQ2FNbGUyU3c?oc=5",
    "date": "2026-10-22",
    "tag": "Result"
   },
@@ -658,14 +674,6 @@
    "tag": "Result"
   },
   {
-   "id": "362a0c9dc73c",
-   "title": "BISE Bahawalpur 11th Class Result 2026 Announced – Check Online",
-   "body": "Source: Bloom Pakistan",
-   "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5XRDdVUUp5RGs4MG5kQ1ZoaEtudVN6LUlUcEU0YWNVUHV1SVRTTXBycm5FcEV0YXgteTQ0UGgyVGZpcXVvWXdIRDk2VEw4SU4yREp5ZmlrdVRWN1J1UWcxelFmcjRXN3V1eFJZZEdtSFhVQVE?oc=5",
-   "date": "2026-10-22",
-   "tag": "Result"
-  },
-  {
    "id": "b6b55d66fd3d",
    "title": "Multan Board First-Year Result 2026 Announced",
    "body": "Source: TechJuice",
@@ -710,14 +718,6 @@
    "title": "BISE Announces Multan HSSC Part 1 Result 2026, Check Now",
    "body": "Source: Hamariweb.com",
    "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQaUVOQU5qb1Z5dDA2WUxIdTBKLTBreDd3WDB5YjFZRFdBeGx4Vnl1aWE4VF9iUkFZNW1KdkoweFZod0dKOTVyazBpSFh5Z0FMczNoVWYtZ2R5em44SlZRa204ZlNHdEI3NFBnNHdmQnUyNVc1RG42aDFKc0VXZnV5aVo2UmZkTVJiRHhIRFAxUE80cUJLTEdtbzdB?oc=5",
-   "date": "2026-10-22",
-   "tag": "Result"
-  },
-  {
-   "id": "7a2fa46eee06",
-   "title": "BISE Sahiwal 11th class result 2026: How to check",
-   "body": "Source: ARYnews.tv",
-   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE40bjFROEdWWmNBdjRka1R6aU9nYjJ5UmVPYU9WZXltMmR6RlBaajVvZVBQc21Zb3lqem1BcF9idlRWTF9CSWNyMDVNUHhHN1R5REdudV9LaVhWUkxzZHZ3OHk1TG5BVnFTUXB0T1V2Q2haWHd4bWc?oc=5",
    "date": "2026-10-22",
    "tag": "Result"
   }
